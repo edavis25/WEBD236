@@ -1,0 +1,23 @@
+.question {
+	border: 2px solid #410054;
+	margin-bottom: 10px;
+	padding: 5px;
+
+}
+#content-wrapper {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	outline: 2px solid #410054;
+	outline-offset: 15px;
+}
+
+.question-content
+{
+	background-color: #eaeaea;
+}
+
+.full-width
+{
+	width: 100%;	
+}
