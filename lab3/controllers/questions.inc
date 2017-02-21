@@ -7,6 +7,7 @@ include_once "models/questions_model.inc";
  */
 function get_questions($params)
 {
+	$id = safeParam($params, 0, false);
 	$data = retrieveRecentQuestions();
 	
 	renderTemplate(
@@ -14,7 +15,8 @@ function get_questions($params)
         array(
             'title' => 'My Questions & Answers',
             'subtitle' => 'Recent Questions',
-            'data' => $data
+            'data' => $data,
+            'id' => $id
         )
     );
 }

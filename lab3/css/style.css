@@ -39,3 +39,17 @@ footer {
 	margin-right: auto;
 	margin-top: 25px;
 }
+
+#nav li {
+	border-right: 5px solid #ffffff;
+	display: inline;
+	float: right;
+	text-align: center;
+}
+
+#nav a {
+	background-color: #410054;
+	color: white;
+	padding: 5px 10px 5px 10px;
+	text-decoration: none;
+}

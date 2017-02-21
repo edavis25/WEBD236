@@ -1,9 +1,26 @@
 <?php
+/**
+ * Utility functions, parameter processing functions, and the renderTemplate functions...
+ */
+ 
+function isLoggedIn() {
+    $inSession = session_id();
+    if (!empty($inSession)) {
+        if (isset($_SESSION['loggedin'])) {
+            return $_SESSION['loggedin'];
+        }
+    }
+    return false;
+}
+ 
+function ensureLoggedIn() {
+    if (!isLoggedIn()) {
+        $_SESSION['redirect'] = $_SERVER['REQUEST_URI'];
+        redirectRelative('login');
+        exit();
+    }
+}
 
-// Utility functions, parameter processing functions, and the
-// renderTemplate functions...
-
-// 
 function validate_present($elements) {
     $errors = '';
     foreach ($elements as $element) {
@@ -13,7 +30,6 @@ function validate_present($elements) {
     }
     return $errors;
 }
-
 
 // Dump an array in a pretty format...
 function dumpArray($elements) {
@@ -30,7 +46,6 @@ function dumpArray($elements) {
     return $result . "</ol>\n";
 }
 
-
 // Function to safely fetch a value from an array, supplying a default
 // if no key is present.
 function safeGet($array, $key, $default=false) {
@@ -46,7 +61,6 @@ function safeGet($array, $key, $default=false) {
     return $default;
 }
 
-
 // Function to safely get a variable from an array by index, supplying
 // a default if no key is present.
 function safeParam($arr, $index, $default=false) {
@@ -56,14 +70,12 @@ function safeParam($arr, $index, $default=false) {
     return $default;
 }
 
-
 // Dump a variable in a nice debug <div>...
 function debug($something) {
     echo "<div class='debug'>\n";
     print_r($something);
     echo "\n</div>\n";
 }
-
 
 // Redirect to a different location....
 function redirect($url) {
@@ -76,7 +88,6 @@ function redirect($url) {
 function redirectRelative($url) {
     redirect(relativeURL($url));
 }
-
 
 function relativeUrl($url) {
     $requestURI = explode('/', $_SERVER['REQUEST_URI']);
@@ -93,14 +104,11 @@ function relativeUrl($url) {
     return implode('/', $dir) . '/' . $url;
 }
 
-
 function __resolveRelativeUrls($matches) {
     return relativeUrl($matches[1]);
 }
 
-
 // Template utility functions...
-
 function __importTemplate($matches) {
     $fileName = $matches[1];
     if (!file_exists($fileName)) {
@@ -118,7 +126,6 @@ function __cacheName($view) {
     $cachePath[$idx] = 'cache_' . $cachePath[$idx];
     return implode('/', $cachePath);
 }
-
 
 // Function to render a template. $view is the view template, $params are
 // passed to the template.
