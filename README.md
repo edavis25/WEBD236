@@ -1,6 +1,6 @@
 # WEBD-236 Persistent Lab
 
-Basic question and answer forum in PHP using an MVC Framework. 4 WEBD-236 lab assignments add new functionality to the application.
+Basic question and answer forum in PHP using an MVC Framework. Each new lab assignment adds new functionality to the application.
 - **Lab 2:** Implement ability to post and edit questions.
 - **Lab 3:** Implement user profiles and login sessions.
 
