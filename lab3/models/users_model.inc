@@ -1,11 +1,30 @@
 <?php
 include_once 'models/db.inc';
 
-// TODO: This function is simply a test. Change it to search the DB for valid user
+
 function isValidUser($username, $password) {
-    return $username == 'admin' && $password == 'admin';
+    //return $username == 'admin' && $password == 'admin';
+    global $db;
+	$sql = "SELECT * FROM Users WHERE Email = :email AND Password = :password";
+	$statement = $db -> prepare($sql);
+	$statement -> bindParam(':email', $username);
+	$statement -> bindParam(':password', $password);
+	$statement -> execute();
+	return $statement -> fetch(PDO::FETCH_ASSOC);
 }
 
+function isValidEmail($email) {
+	global $db;
+	$sql = "SELECT * FROM Users WHERE Email = :email";
+	$statement = $db -> prepare($sql);
+	$statement -> bindParam(':email', $email);
+	$statement -> execute();
+	return $statement -> fetch(PDO::FETCH_ASSOC);
+}
+
+/**
+ * Insert new user into DB
+ */
 function insertUser($first, $last, $email, $password) {
 	global $db;
 	
@@ -22,4 +41,17 @@ function insertUser($first, $last, $email, $password) {
 	
 	// Return the ID of the added question 
     return $db -> lastInsertId();
+}
+
+/**
+ * Retrieve question with specific ID
+ */
+function retrieveUserById($id) {
+	global $db;
+	
+	$sql = "SELECT * FROM Users WHERE UserID = :id";
+    $statement = $db -> prepare($sql);
+    $statement -> bindParam(':id', $id);
+    $statement -> execute();
+    return $statement -> fetch(PDO::FETCH_ASSOC);
 }

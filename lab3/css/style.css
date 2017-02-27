@@ -12,6 +12,7 @@ body {
 	width: 50%;
 	margin-left: auto;
 	margin-right: auto;
+	margin-top: 2%;
 	outline: 2px solid #410054;
 	outline-offset: 15px;
 }

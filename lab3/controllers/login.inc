@@ -16,8 +16,17 @@ function get_index($params) {
 function post_index($params) {
     $username = safeParam($_POST, 'username', false);
     $password = safeParam($_POST, 'password', false);
-    if (isValidUser($username, $password)) {
+    
+    $validUser = isValidUser($username, $password);
+	if ($validUser) {
+    //if (isValidUser($username, $password)) {
+        	
+        // Set session variables
         $_SESSION['loggedin'] = true;
+		$_SESSION['UserID'] = $validUser['UserID'];
+		$_SESSION['FirstName'] = $validUser['FirstName'];
+		$_SESSION['LastName'] = $validUser['LastName'];
+		
         if (isset($_SESSION['redirect'])) {
             $redirect = $_SESSION['redirect'];
             redirect($redirect);

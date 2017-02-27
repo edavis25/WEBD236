@@ -1,7 +1,5 @@
 %% views/header.inc %%
 
-<?php include_once 'views/navigation.inc' ?>
-
 <h1>{{ $title }}</h1>
 
 <div id="errors">

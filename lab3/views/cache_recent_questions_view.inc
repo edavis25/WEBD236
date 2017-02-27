@@ -8,13 +8,36 @@
 		<title><?php echo( $title ); ?></title>
 	</head>
 	<body>
+		<!-- Page wrapper -->
 		<div id="content-wrapper">
+			
+			<!-- Navigation bar -->
+			<div id="nav">
+				<ul>
+					
+					<?php if (isLoggedIn()) : ?>
+						<li><a href="/Aptana/lab2/lab3/logout">Logout</a></li>
+						<li><a href="">My Profile</a></li>
+					<?php  else : ?>
+						<li><a href="/Aptana/lab2/lab3/login">Login</a></li>
+						<li><a href="/Aptana/lab2/lab3/user/register">Register</a></li>	
+					<?php  endif; ?>
+					
+					<!-- Home link always present -->
+					<li><a href="/Aptana/lab2/lab3/index">Home</a></li>
+				</ul>
+			</div>
+			
+			<!-- User greeting -->
+			<div id="greeting">
+				<?php  if (isLoggedIn()) : ?>
+					<?php echo( "Welcome, " . safeParam($_SESSION, 'FirstName', false) ." ". safeParam($_SESSION, 'LastName', false) ."!" ); ?>
+				<?php  endif; ?>
+			</div>
 
-
-<?php include_once 'views/navigation.inc' ?>
 
 <h1><?php echo (isLoggedIn()) ? 'LOGGED IN' : 'LOGGED OUT'; ?></h1>
-<h2><?php echo ($id) ? "ID: $id" : '' ?></h2>
+<h2><?php echo( isset($_SESSION['UserID']) ? $_SESSION['UserID'] : ''); ?></h2>
 
 <h1> <?php echo( $title ); ?></h1>
 <h3><?php echo( $subtitle ); ?></h3>

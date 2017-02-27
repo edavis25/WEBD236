@@ -24,8 +24,8 @@ function post_register($params) {
 	// Check for all required fields and begin building error string (if necessary)
 	$errors = validate_present(array('first-name', 'last-name', 'username', 'password'));
 	
-	// TODO: if test for testing duplicate email
-	if ($_POST['username'] == 'admin') {
+	// Check for valid email (doesn't exist in DB already)
+	if (isValidEmail($inputs['username'])) {
 		$errors .= '&bull; Email address already in use.';
 	}
 	
@@ -44,9 +44,16 @@ function post_register($params) {
     	die; // Errors found, stop here after re-render
     }
 	
-	// TODO: Add user to DB
+	// No errors found: register and log user in
+	// Add user to DB
 	$id = insertUser($inputs['first_name'], $inputs['last_name'], $inputs['username'], $inputs['password']);
-	// TODO: Log user in
+	
+	// Log user in and set SESSION variables
+	$_SESSION['loggedin'] = true;
+	$_SESSION['UserID'] = $id;
+	$_SESSION['FirstName'] = $inputs['first_name'];
+	$_SESSION['LastName'] = $inputs['last_name'];
+	
 	redirectRelative("index");
 }
 

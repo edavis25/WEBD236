@@ -1,22 +1,21 @@
 <?php
 include_once "include/util.inc";
 include_once "models/questions_model.inc";
+include_once "models/users_model.inc";
 
 /**
  * Show recent questions as home page. 
  */
 function get_questions($params)
 {
-	$id = safeParam($params, 0, false);
 	$data = retrieveRecentQuestions();
-	
+
 	renderTemplate(
         "views/recent_questions_view.inc",
         array(
             'title' => 'My Questions & Answers',
             'subtitle' => 'Recent Questions',
-            'data' => $data,
-            'id' => $id
+            'data' => $data
         )
     );
 }

@@ -2,10 +2,8 @@
 
 %% views/header.inc %%
 
-<?php include_once 'views/navigation.inc' ?>
-
 <h1><?php echo (isLoggedIn()) ? 'LOGGED IN' : 'LOGGED OUT'; ?></h1>
-<h2><?php echo ($id) ? "ID: $id" : '' ?></h2>
+<h2>{{ isset($_SESSION['UserID']) ? $_SESSION['UserID'] : ''}}</h2>
 
 <h1> {{ $title }}</h1>
 <h3>{{ $subtitle }}</h3>
