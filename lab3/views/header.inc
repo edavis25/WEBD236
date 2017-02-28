@@ -15,7 +15,7 @@
 					
 					[[if (isLoggedIn()) : ]]
 						<li><a href="@@logout@@">Logout</a></li>
-						<li><a href="">My Profile</a></li>
+						<li><a href="@@user/view_user/{{safeParam($_SESSION, 'UserID', false)}}@@">My Profile</a></li>
 					[[ else : ]]
 						<li><a href="@@login@@">Login</a></li>
 						<li><a href="@@user/register@@">Register</a></li>	

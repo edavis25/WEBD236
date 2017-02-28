@@ -2,6 +2,24 @@
 include_once "include/util.inc";
 include_once "models/users_model.inc";
 
+
+// View user
+function get_view_user($params) {
+	// Get userID and retreive user info
+	$id = safeParam($params, 0, false);
+	$data = retrieveUserById($id);
+	
+	renderTemplate(
+		"views/view_user_view.inc",
+		array(
+			'title' => 'View User',
+			'data' => $data
+		)
+	);		
+}
+
+
+
 // Get view login view
 function get_register($params) {
     renderTemplate(

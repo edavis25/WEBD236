@@ -31,18 +31,19 @@ function retrieveRecentQuestions()
 /**
  * Insert new question into DB
  */
-function insertQuestion($date, $title, $content, $tags)
+function insertQuestion($date, $title, $content, $tags, $userId)
 {
 	global $db;
 	
-	$sql = "INSERT INTO Questions (Date, Title, Content, Tags) 
-			VALUES (:date, :title, :content, :tags)";
+	$sql = "INSERT INTO Questions (Date, Title, Content, Tags, UserID) 
+			VALUES (:date, :title, :content, :tags, :userid)";
 	
 	$statement = $db -> prepare($sql);
     $statement -> bindParam(':date', $date);
 	$statement -> bindParam(':title', $title);
 	$statement -> bindParam(':content', $content);
 	$statement -> bindParam(':tags', $tags);
+	$statement -> bindParam(':userid', $userId);
 	
 	$statement -> execute();
 	

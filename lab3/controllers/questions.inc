@@ -8,12 +8,19 @@ include_once "models/users_model.inc";
  */
 function get_questions($params)
 {
+	// Get question data
 	$data = retrieveRecentQuestions();
+	
+	// Get author information and create new index in data array for author info
+	foreach ($data as &$question) {
+		$user = retrieveUserById($question['UserID']);
+		$question['Author'] = $user['FirstName'] ." ". $user['LastName'];
+	}
 
 	renderTemplate(
         "views/recent_questions_view.inc",
         array(
-            'title' => 'My Questions & Answers',
+            'title' => 'A Questions & Answers Forum',
             'subtitle' => 'Recent Questions',
             'data' => $data
         )
@@ -35,7 +42,14 @@ function get_view_question($params)
     $question = retrieveQuestionById($id);
     if (!$question) {
     	die("Question not found.");
-    }		
+    }
+	
+	// Get author name
+	$user = retrieveUserById($question['UserID']);
+	if (!$user) {
+		die("Question author not found.");
+	}
+	$question['Author'] = $user['FirstName'] ." ". $user['LastName'];
 
 	renderTemplate(
         "views/view_question_view.inc",
@@ -51,6 +65,9 @@ function get_view_question($params)
  */
 function get_post_question($params)
 {
+	// Make sure user is logged in
+	ensureLoggedIn();
+	
 	renderTemplate(
         "views/post_question_view.inc",
         array(
@@ -88,14 +105,15 @@ function post_add_question($params)
 	// Get question post input
 	$title = safeParam($_POST, 'title', false);
 	$content = safeParam($_POST, 'content', false);
-	$tags = safeParam($_POST, 'tags', false);	
+	$tags = safeParam($_POST, 'tags', false);
+	$userId = safeParam($_SESSION, 'UserID', false);
 
 	// Set timezone and get current date/time
 	date_default_timezone_set('America/New_York');
 	$date = date("Y-m-d H:i:s");
 	
 	// Insert into DB and get the newly created ID for redirect
-	$id = insertQuestion($date, $title, $content, $tags);
+	$id = insertQuestion($date, $title, $content, $tags, $userId);
 	redirectRelative("questions/view_question/$id");
 }
 

@@ -2,7 +2,7 @@
 
 <h1>{{$question['Title']}}</h1>
 <hr />
-<p>Posted on: {{$question['Date']}}</p>
+<p>Posted on: {{$question['Date']}} by <a href="@@user/view_user/{{ $question['UserID'] }}@@">{{ $question['Author'] }}</a></p>
 <p>Tags: {{ ($question['Tags']) ? $question['Tags'] : "<i>none</i>" }}</p>
 <p class="question-content">{{ nl2br($question['Content']) }}</p>
 

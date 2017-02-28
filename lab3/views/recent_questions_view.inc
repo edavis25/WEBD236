@@ -13,7 +13,7 @@
 	<div class="question">
 		<a href="@@questions/view_question/{{$row['QuestionID']}}@@"> {{ $row['Title'] }}</a>
 		<br />
-		Posted: {{ $row['Date'] }}
+		Posted: {{ $row['Date'] }} by <a href="@@user/view_user/{{ $row['UserID'] }}@@">{{ $row['Author'] }}</a>
 		<br />
 		{{ ($row['Tags']) ? "Tags: " . $row['Tags'] : '' }}
 		<p class="question-content"> {{ substr($row['Content'], 0, 240).".." }}</p>
