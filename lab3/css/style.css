@@ -54,3 +54,7 @@ footer {
 	padding: 5px 10px 5px 10px;
 	text-decoration: none;
 }
+
+input, textarea {
+	margin-bottom: 10px;
+}

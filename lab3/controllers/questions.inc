@@ -35,7 +35,7 @@ function get_view_question($params)
 	// Get ID as safe param (die if ID not found)
 	$id = safeParam($params, 0, false);
     if ($id === false) {
-        die("Error: No question selected");
+        die("Error: No question selected.");
     }
 	
 	// Retrieve question by ID (die if not found)
@@ -50,12 +50,16 @@ function get_view_question($params)
 		die("Question author not found.");
 	}
 	$question['Author'] = $user['FirstName'] ." ". $user['LastName'];
-
+	
+	// Flag for author edit/delete controls
+	$isAuthor = (isLoggedIn() && $_SESSION['UserID'] == $question['UserID']);
+	
 	renderTemplate(
         "views/view_question_view.inc",
         array(
             'title' => $question['Title'],
-            'question' => $question
+            'question' => $question,
+            'isAuthor' => $isAuthor
         )
     );
 }
@@ -122,12 +126,21 @@ function post_add_question($params)
  */
 function get_delete_question($params)
 {
+	// _GET question ID as safe param
 	$id = safeParam($params, 0, false);
-    if ($id === false) {
-    	die("Error: Can't delete question. No question selected. <br /> <a href='".relativeUrl("questions/questions")."'>Home</a>");
-    }
-
-    deleteQuestionById($id);
+	
+	// Get question data from DB to find author's UserID
+	$question = retrieveQuestionById($id);
+	
+	if (!$question) {
+		die("Error: Can't delete question. No question selected. <br /> <a href='".relativeUrl("questions/questions")."'>Home</a>");
+	}
+	
+	// Delete ONLY if the logged in user is the owner of the question
+	if (isLoggedIn() && $_SESSION['UserID'] == $question['UserID']) {
+    	deleteQuestionById($id);
+	}
+	
 	redirectRelative("questions/questions");
 }
 

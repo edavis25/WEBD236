@@ -15,6 +15,19 @@ function retrieveQuestionById($id)
     return $statement -> fetch(PDO::FETCH_ASSOC);
 }
 
+function retrieveQuestionsByUserId($id) 
+{
+	global $db;
+	
+	$sql = "SELECT * FROM Questions WHERE UserID = :id ORDER BY Date DESC";
+	
+	$statement = $db -> prepare($sql);
+	$statement -> bindParam(':id', $id);
+	$statement -> execute();
+	
+	return $statement -> fetchAll(PDO::FETCH_ASSOC);	
+}
+
 /**
  * Retrieve 5 most recent questions
  */
@@ -78,4 +91,14 @@ function updateQuestion($id, $title, $content, $tags)
 	$statement -> bindParam(':tags', $tags);
     $statement -> bindParam(':id', $id);
     $statement -> execute();
+}
+
+function deleteQuestionByUserId($id)
+{
+	global $db;
+	
+	$sql = "DELETE FROM Questions WHERE UserID = :id";
+	$statement = $db -> prepare($sql);
+	$statement -> bindParam(':id', $id);
+	$statement -> execute();
 }

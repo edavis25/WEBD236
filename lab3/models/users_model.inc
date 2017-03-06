@@ -55,3 +55,26 @@ function retrieveUserById($id) {
     $statement -> execute();
     return $statement -> fetch(PDO::FETCH_ASSOC);
 }
+
+function updateUserById($first, $last, $email, $password, $id) {
+	global $db;
+	
+	$sql = "UPDATE Users SET FirstName = :first, LastName = :last, Email = :email, Password = :password
+			WHERE UserID = :id";
+	$statement = $db -> prepare($sql);
+	$statement -> bindParam(':first', $first);
+	$statement -> bindParam(':last', $last);
+	$statement -> bindParam(':email', $email);
+	$statement -> bindParam(':password', $password);
+	$statement -> bindParam(':id', $id);
+	$statement -> execute();	
+}
+
+function deleteUserById($id) {
+	global $db;
+	
+	$sql = "DELETE FROM Users WHERE UserID = :id";
+	$statement = $db -> prepare($sql);
+	$statement -> bindParam(':id', $id);
+	$statement -> execute();
+}

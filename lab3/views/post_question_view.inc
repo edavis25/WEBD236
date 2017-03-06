@@ -19,7 +19,7 @@
 	<br />
 	<input type="submit" value="Post Question" id="submit-question" />
 </form>
-<br /><br />
+<br />
 <a href="@@index@@">&lt;&lt; Back</a>
 
 %% views/footer.inc %%

@@ -1,5 +1,3 @@
-<?php include_once 'include/util.inc' ?>
-
 %% views/header.inc %%
 
 <h1><?php echo (isLoggedIn()) ? 'LOGGED IN' : 'LOGGED OUT'; ?></h1>

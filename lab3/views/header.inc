@@ -1,3 +1,5 @@
+<?php include_once 'include/util.inc' ?>
+
 <!DOCTYPE html>
 <html>
 	<head>

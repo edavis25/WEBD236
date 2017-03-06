@@ -9,10 +9,10 @@
 <form action="@@login@@" method="post">
 	<label for="username">Email:</label><br />
 	<input type="text" id="username" name="username" class="full-width" />
-	<br /><br />
+	<br />
 	<label for="password">Password:</label><br />
 	<input type="text" id="password" name="password" class="full-width" />
-	<br /><br />
+	<br />
 	<input type="submit" id="login-submit" name="login-submit" value="Login" />
 </form>
 

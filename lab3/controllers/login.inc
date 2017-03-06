@@ -19,13 +19,12 @@ function post_index($params) {
     
     $validUser = isValidUser($username, $password);
 	if ($validUser) {
-    //if (isValidUser($username, $password)) {
-        	
         // Set session variables
         $_SESSION['loggedin'] = true;
 		$_SESSION['UserID'] = $validUser['UserID'];
 		$_SESSION['FirstName'] = $validUser['FirstName'];
 		$_SESSION['LastName'] = $validUser['LastName'];
+		$_SESSION['Email'] = $validUser['Email'];
 		
         if (isset($_SESSION['redirect'])) {
             $redirect = $_SESSION['redirect'];
