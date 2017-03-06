@@ -31,7 +31,9 @@ function get_view_user($params) {
 }
 
 
-// Get view login view
+/*
+ *  Display user registration page
+ */
 function get_register($params) {
     renderTemplate(
         "views/edit_user_view.inc",
@@ -43,6 +45,9 @@ function get_register($params) {
     );
 }
 
+/*
+ * Register user into the database (POST registration submit event)
+ */
 function post_register($params) {
 	// Get post data
 	$inputs['FirstName'] = safeParam($_POST, 'first-name', false);
@@ -82,13 +87,18 @@ function post_register($params) {
 	$_SESSION['UserID'] = $id;
 	$_SESSION['FirstName'] = $inputs['FirstName'];
 	$_SESSION['LastName'] = $inputs['LastName'];
+	$_SESSION['Email'] = $inputs['Email'];
 	
 	redirectRelative("index");
 }
 
+/**
+ * Edit existing user information
+ */
 function get_edit_user($params) {
 	ensureLoggedIn();
 	
+	// Use the user's ID from SESSION to prohibit any URL fishing edits
 	$id = safeParam($_SESSION, 'UserID', false);
 	
 	$inputs = retrieveUserById($id);
@@ -107,6 +117,9 @@ function get_edit_user($params) {
     );
 }
 
+/**
+ * Save edit user changes (edit user form POST submit event)
+ */
 function post_edit_user($params) {
 	ensureLoggedIn();
 	
@@ -153,9 +166,13 @@ function post_edit_user($params) {
 	redirectRelative("user/view_user/$id");	
 }
 
+/**
+ * Delete user and all their questions from the database
+ */
 function get_delete_user($params) {
 	ensureLoggedIn();
 	
+	// Use the user's ID from SESSION to prohibit any URL fishing deletes
 	$id = safeParam($_SESSION, 'UserID', false);
 	
 	deleteQuestionByUserId($id);

@@ -1,7 +1,9 @@
 <?php
 include_once 'models/db.inc';
 
-
+/**
+ * Check for valid username/password combination in database 
+ */
 function isValidUser($username, $password) {
     //return $username == 'admin' && $password == 'admin';
     global $db;
@@ -13,6 +15,9 @@ function isValidUser($username, $password) {
 	return $statement -> fetch(PDO::FETCH_ASSOC);
 }
 
+/**
+ * Look for an existing email address
+ */
 function isValidEmail($email) {
 	global $db;
 	$sql = "SELECT * FROM Users WHERE Email = :email";
@@ -56,6 +61,9 @@ function retrieveUserById($id) {
     return $statement -> fetch(PDO::FETCH_ASSOC);
 }
 
+/**
+ * Update user information in the database
+ */
 function updateUserById($first, $last, $email, $password, $id) {
 	global $db;
 	
@@ -70,6 +78,9 @@ function updateUserById($first, $last, $email, $password, $id) {
 	$statement -> execute();	
 }
 
+/**
+ * Delete a specific user in the database
+ */
 function deleteUserById($id) {
 	global $db;
 	

@@ -149,9 +149,11 @@ function get_delete_question($params)
  */
 function get_edit_question($params) 
 {
+	ensureLoggedIn();
+		
 	$id = safeParam($params, 0, false);
 	if ($id === false) {
-        die("Error: No question selected");
+        die("Error: No question selected.");
     }
 	
 	// Retrieve question by ID (die if not found)
@@ -160,13 +162,20 @@ function get_edit_question($params)
     	die("Error: Question not found.");
     }
 	
-	renderTemplate(
-        "views/edit_question_view.inc",
-        array(
-            'title' => 'Edit your question',
-            'inputs' => $question
-        )
-    );
+	// Make sure the user is the owner (block URL fishing edits from non-owners)
+	if (isLoggedIn() && $_SESSION['UserID'] == $question['UserID']) {
+		renderTemplate(
+        	"views/edit_question_view.inc",
+       	 	array(
+            	'title' => 'Edit your question',
+            	'inputs' => $question
+        	)
+    	);
+	}
+	else {
+		// User not owner, send em home
+		redirectRelative("index");
+	}
 }
 
 /**

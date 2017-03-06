@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="/Aptana/lab2/lab3/css/style.css" />
+		<link rel="stylesheet" href="/lab/lab3/css/style.css" />
 		
 		<title><?php echo( $title ); ?></title>
 	</head>
@@ -16,15 +16,15 @@
 				<ul>
 					
 					<?php if (isLoggedIn()) : ?>
-						<li><a href="/Aptana/lab2/lab3/logout">Logout</a></li>
-						<li><a href="/Aptana/lab2/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
+						<li><a href="/lab/lab3/logout">Logout</a></li>
+						<li><a href="/lab/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
 					<?php  else : ?>
-						<li><a href="/Aptana/lab2/lab3/login">Login</a></li>
-						<li><a href="/Aptana/lab2/lab3/user/register">Register</a></li>	
+						<li><a href="/lab/lab3/login">Login</a></li>
+						<li><a href="/lab/lab3/user/register">Register</a></li>	
 					<?php  endif; ?>
 					
 					<!-- Home link always present -->
-					<li><a href="/Aptana/lab2/lab3/index">Home</a></li>
+					<li><a href="/lab/lab3/index">Home</a></li>
 				</ul>
 			</div>
 			
@@ -56,18 +56,18 @@
 <br />
 
 <?php  if ($ownsAccount) : ?>
-<a href="/Aptana/lab2/lab3/user/edit_user">[Edit]</a>
+<a href="/lab/lab3/user/edit_user">[Edit]</a>
 <a href="#" onclick="toggle('confirm-delete')">[Delete]</a>
-<div id="confirm-delete" style="display: none;">Are you sure? <a href="/Aptana/lab2/lab3/user/delete_user">yes</a> / <a href="#" onclick="toggle('confirm-delete')">no</a></div>
+<div id="confirm-delete" style="display: none;">Are you sure? <a href="/lab/lab3/user/delete_user">yes</a> / <a href="#" onclick="toggle('confirm-delete')">no</a></div>
 <?php  endif; ?>
 
 <h2>Questions By <?php echo($data['FirstName'] ." ". $data['LastName']); ?></h2>
 
 <?php  foreach ($questions as $row): ?>
 	<div class="question">
-		<a href="/Aptana/lab2/lab3/questions/view_question/<?php echo($row['QuestionID']); ?>"> <?php echo( $row['Title'] ); ?></a>
+		<a href="/lab/lab3/questions/view_question/<?php echo($row['QuestionID']); ?>"> <?php echo( $row['Title'] ); ?></a>
 		<br />
-		Posted: <?php echo( $row['Date'] ); ?> by <a href="/Aptana/lab2/lab3/user/view_user/<?php echo( $row['UserID'] ); ?>"><?php echo( $data['FirstName'] ." ". $data['LastName'] ); ?></a>
+		Posted: <?php echo( $row['Date'] ); ?> by <a href="/lab/lab3/user/view_user/<?php echo( $row['UserID'] ); ?>"><?php echo( $data['FirstName'] ." ". $data['LastName'] ); ?></a>
 		<br />
 		<?php echo( ($row['Tags']) ? "Tags: " . $row['Tags'] : '' ); ?>
 		<p class="question-content"> <?php echo( substr($row['Content'], 0, 240).".." ); ?></p>
