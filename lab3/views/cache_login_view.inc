@@ -36,25 +36,21 @@
 			</div>
 
 
-<h1> <?php echo( $title ); ?></h1>
-<h3><?php echo( $subtitle ); ?></h3>
+<h1><?php echo( $title ); ?></h1>
 
-<!-- outer row loop -->
-<?php foreach ($data as $row): ?>
-	<div class="question">
-		<a href="/Aptana/lab2/lab3/questions/view_question/<?php echo($row['QuestionID']); ?>"> <?php echo( $row['Title'] ); ?></a>
-		<br />
-		Posted: <?php echo( $row['Date'] ); ?> by <a href="/Aptana/lab2/lab3/user/view_user/<?php echo( $row['UserID'] ); ?>"><?php echo( $row['Author'] ); ?></a>
-		<br />
-		<?php echo( ($row['Tags']) ? "Tags: " . $row['Tags'] : '' ); ?>
-		<p class="question-content"> <?php echo( substr($row['Content'], 0, 240).".." ); ?></p>
-	</div>
-<?php endforeach ?>
-
-
-<!-- <a href="/Aptana/lab2/lab3/questions/view_question/<?php echo($record['id']); ?>">[View]</a -->
+<div id="errors">
+	<?php echo( isset($errors) ? $errors."<br />" : '' ); ?>
+</div>
 <br />
-<a href="/Aptana/lab2/lab3/questions/post_question/">[Post new question]</a>
+<form action="/Aptana/lab2/lab3/login" method="post">
+	<label for="username">Email:</label><br />
+	<input type="text" id="username" name="username" class="full-width" />
+	<br />
+	<label for="password">Password:</label><br />
+	<input type="text" id="password" name="password" class="full-width" />
+	<br />
+	<input type="submit" id="login-submit" name="login-submit" value="Login" />
+</form>
 
 	
 	</div> <!-- End content wrapper -->

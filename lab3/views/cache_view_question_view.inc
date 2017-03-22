@@ -36,25 +36,21 @@
 			</div>
 
 
-<h1> <?php echo( $title ); ?></h1>
-<h3><?php echo( $subtitle ); ?></h3>
+<h1><?php echo($question['Title']); ?></h1>
+<hr />
+<p>Posted on: <?php echo($question['Date']); ?> by <a href="/Aptana/lab2/lab3/user/view_user/<?php echo( $question['UserID'] ); ?>"><?php echo( $question['Author'] ); ?></a></p>
+<p>Tags: <?php echo( ($question['Tags']) ? $question['Tags'] : "<i>none</i>" ); ?></p>
+<p class="question-content"><?php echo( nl2br($question['Content']) ); ?></p>
 
-<!-- outer row loop -->
-<?php foreach ($data as $row): ?>
-	<div class="question">
-		<a href="/Aptana/lab2/lab3/questions/view_question/<?php echo($row['QuestionID']); ?>"> <?php echo( $row['Title'] ); ?></a>
-		<br />
-		Posted: <?php echo( $row['Date'] ); ?> by <a href="/Aptana/lab2/lab3/user/view_user/<?php echo( $row['UserID'] ); ?>"><?php echo( $row['Author'] ); ?></a>
-		<br />
-		<?php echo( ($row['Tags']) ? "Tags: " . $row['Tags'] : '' ); ?>
-		<p class="question-content"> <?php echo( substr($row['Content'], 0, 240).".." ); ?></p>
-	</div>
-<?php endforeach ?>
+<!-- Add edit/delete links if user is question author -->
+<?php  if ($isAuthor) : ?>
+<a href="/Aptana/lab2/lab3/questions/edit_question/<?php echo( $question['QuestionID'] ); ?>">[Edit]</a>
+<a href="#" onclick="toggle('confirm-delete')">[Delete]</a>
+<div id="confirm-delete" style="display: none;">Are you sure? <a href="/Aptana/lab2/lab3/questions/delete_question/<?php echo( $question['QuestionID'] ); ?>">yes</a> / <a href="#" onclick="toggle('confirm-delete')">no</a></div>
+<?php  endif; ?>
 
-
-<!-- <a href="/Aptana/lab2/lab3/questions/view_question/<?php echo($record['id']); ?>">[View]</a -->
-<br />
-<a href="/Aptana/lab2/lab3/questions/post_question/">[Post new question]</a>
+<br /><br />
+<a href="/Aptana/lab2/lab3/index">&lt;&lt; Back</a>
 
 	
 	</div> <!-- End content wrapper -->
