@@ -21,6 +21,13 @@ function ensureLoggedIn() {
     }
 }
 
+function ensureLoggedInUserIs($id) {
+    ensureLoggedIn();
+    if ($_SESSION['UserID'] != $id) {
+        die("You aren't authorized for this action.");
+    }
+}
+
 function validate_present($elements) {
     $errors = '';
     foreach ($elements as $element) {

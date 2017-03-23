@@ -1,16 +1,16 @@
 %% views/header.inc %%
 
-<h1>{{$question['Title']}}</h1>
+<h1>{{ $title }}</h1>
 <hr />
-<p>Posted on: {{$question['Date']}} by <a href="@@user/view_user/{{ $question['UserID'] }}@@">{{ $question['Author'] }}</a></p>
-<p>Tags: {{ ($question['Tags']) ? $question['Tags'] : "<i>none</i>" }}</p>
-<p class="question-content">{{ nl2br($question['Content']) }}</p>
+<p>Posted on: {{$question->getDate()}} by <a href="@@user/view_user/{{ $question->getUserId() }}@@">{{ $question->getAuthorName() }}</a></p>
+<p>Tags: {{ ($question->getTags()) ? $question->getTags() : "<i>none</i>" }}</p>
+<p class="question-content">{{ nl2br($question->getContent()) }}</p>
 
 <!-- Add edit/delete links if user is question author -->
 [[ if ($isAuthor) : ]]
-<a href="@@questions/edit_question/{{ $question['QuestionID'] }}@@">[Edit]</a>
+<a href="@@questions/edit_question/{{ $question->getId() }}@@">[Edit]</a>
 <a href="#" onclick="toggle('confirm-delete')">[Delete]</a>
-<div id="confirm-delete" style="display: none;">Are you sure? <a href="@@questions/delete_question/{{ $question['QuestionID'] }}@@">yes</a> / <a href="#" onclick="toggle('confirm-delete')">no</a></div>
+<div id="confirm-delete" style="display: none;">Are you sure? <a href="@@questions/delete_question/{{ $question->getId() }}@@">yes</a> / <a href="#" onclick="toggle('confirm-delete')">no</a></div>
 [[ endif; ]]
 
 <br /><br />

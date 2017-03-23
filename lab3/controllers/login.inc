@@ -1,6 +1,7 @@
 <?php
 include_once "include/util.inc";
-include_once "models/users_model.inc";
+//include_once "models/users_model.inc";
+include_once 'models/User.inc';
 
 
 // Get view login view
@@ -17,14 +18,14 @@ function post_index($params) {
     $username = safeParam($_POST, 'username', false);
     $password = safeParam($_POST, 'password', false);
     
-    $validUser = isValidUser($username, $password);
-	if ($validUser) {
+    $validUser = User::isValidUser($username, $password);
+    if ($validUser) {
         // Set session variables
         $_SESSION['loggedin'] = true;
-		$_SESSION['UserID'] = $validUser['UserID'];
-		$_SESSION['FirstName'] = $validUser['FirstName'];
-		$_SESSION['LastName'] = $validUser['LastName'];
-		$_SESSION['Email'] = $validUser['Email'];
+        $_SESSION['UserID'] = $validUser->getId();
+	$_SESSION['FirstName'] = $validUser->getFirstName();
+	$_SESSION['LastName'] = $validUser->getLastName();
+	$_SESSION['Email'] = $validUser->getEmail();
 		
         if (isset($_SESSION['redirect'])) {
             $redirect = $_SESSION['redirect'];
