@@ -14,20 +14,13 @@ function get_questions($params) {
     // Get question data
     $data = Question::retrieveRecentQuestions();
 
-    /* Get author information and create new index in data array for author info
-    foreach ($data as $question) {
-        $user = retrieveUserById($question['UserID']);
-        $question['Author'] = $user['FirstName'] . " " . $user['LastName'];
-    }
-    */
-    
     renderTemplate(
-            "views/recent_questions_view.inc", 
-            array(
-                'title' => 'A Questions & Answers Forum',
-                'subtitle' => 'Recent Questions',
-                'data' => $data
-            )
+        "views/recent_questions_view.inc", 
+        array(
+            'title' => 'A Questions & Answers Forum',
+            'subtitle' => 'Recent Questions',
+            'data' => $data
+        )
     );
 }
 
@@ -47,23 +40,16 @@ function get_view_question($params) {
         die("Question not found.");
     }
 
-    /* Get author name
-    $user = retrieveUserById($question['UserID']);
-    if (!$user) {
-        die("Question author not found.");
-    }
-    $question['Author'] = $user['FirstName'] . " " . $user['LastName'];
-     */
-
     // Flag for author edit/delete controls
     $isAuthor = (isLoggedIn() && $_SESSION['UserID'] == $question->getUserId());
 
     renderTemplate(
-            "views/view_question_view.inc", array(
+        "views/view_question_view.inc", 
+        array(
             'title' => $question->getTitle(),
             'question' => $question,
             'isAuthor' => $isAuthor
-            )
+        )
     );
 }
 
@@ -98,14 +84,16 @@ function post_add_question($params) {
     // If errors exist, required input is missing. Re-render the create a new question view.
     // Send errors and any input that was already entered
     if ($errors) {
+        // @formatter:off
         renderTemplate(
-                "views/post_question_view.inc", 
-                array(
-                    'title' => 'Create a new question',
-                    'errors' => $errors,
-                    'inputs' => $inputs
-                )
+            "views/post_question_view.inc", 
+            array(
+                'title' => 'Create a new question',
+                'errors' => $errors,
+                'inputs' => $inputs
+            )
         );
+        // @formatter:on
         die; // If errors found, stop here
     }
 
@@ -192,49 +180,42 @@ function get_edit_question($params) {
  * render the edit question view again and show errors.
  */
 function post_edit_question($params) {
+    // Gather any existing inputs to send back
+    $inputs['Title'] = safeParam($_POST, 'title', false);
+    $inputs['Content'] = safeParam($_POST, 'content', false);
+    $inputs['Tags'] = safeParam($_POST, 'tags', false);
+    $inputs['QuestionID'] = safeParam($_POST, 'id', false);
+    
     $errors = validate_present(array('title', 'content'));
     // If errors exist, required input is missing. Re-render the create a new question view.
     // Send errors and any input that was already entered
     if ($errors) {
-        // Gather any existing inputs to send back
-        $inputs['Title'] = safeParam($_POST, 'title', false);
-        $inputs['Content'] = safeParam($_POST, 'content', false);
-        $inputs['Tags'] = safeParam($_POST, 'tags', false);
-        $inputs['QuestionID'] = safeParam($_POST, 'id', false);
-        $question = new Question($inputs['QuestionID'], null, $inputs['Title'], $inputs['Content'], $inputs['Tags'], null);
-        
+        $tempQuestion = new Question($inputs['QuestionID'], null, $inputs['Title'], $inputs['Content'], $inputs['Tags'], null);
+        // @formatter:off
         renderTemplate(
-                "views/edit_question_view.inc", 
-                array(
-                    'title' => 'Edit your question',
-                    'errors' => $errors,
-                    'question' => $question
-                )
+            "views/edit_question_view.inc", 
+            array(
+                'title' => 'Edit your question',
+                'errors' => $errors,
+                'question' => $tempQuestion
+            )
         );
+        // @formatter:on
         die; // If errors found, stop here
     }
     
-    // -- If no errors found, update question in DB -->
-    
-    // Get question & check question author from database
-    $id = safeParam($_POST, 'id', false);
-    $question = Question::retrieveQuestionById($id);
+    // No errors - get question & check question author from database
+    $question = Question::retrieveQuestionById($inputs['QuestionID']);
     if (!question) {
         die('No question found.');
     }
     
     ensureLoggedInUserIs($question->getUserId());
-    
-    // Get POST data & update question
-    $title = safeParam($_POST, 'title', false);
-    $content = safeParam($_POST, 'content', false);
-    $tags = safeParam($_POST, 'tags', false);
-
-    $question->setTitle($title);
-    $question->setContent($content);
-    $question->setTags($tags);
-    
+   
+    $question->setTitle($inputs['Title']);
+    $question->setContent($inputs['Content']);
+    $question->setTags($inputs['Tags']);
     $question->updateQuestion();
     
-    redirectRelative("questions/view_question/$id");
+    redirectRelative('questions/view_question/' . $inputs['QuestionID']);
 }
