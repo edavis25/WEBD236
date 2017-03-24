@@ -1,17 +1,18 @@
 <?php
 include_once "include/util.inc";
-//include_once "models/users_model.inc";
 include_once 'models/User.inc';
 
 
 // Get view login view
 function get_index($params) {
+    // @formatter: off
     renderTemplate(
         "views/login_view.inc",
         array(
             'title' => 'Login',
         )
     );
+    // @formatter: on
 }
 
 function post_index($params) {
@@ -20,12 +21,7 @@ function post_index($params) {
     
     $validUser = User::isValidUser($username, $password);
     if ($validUser) {
-        // Set session variables
-        $_SESSION['loggedin'] = true;
-        $_SESSION['UserID'] = $validUser->getId();
-	$_SESSION['FirstName'] = $validUser->getFirstName();
-	$_SESSION['LastName'] = $validUser->getLastName();
-	$_SESSION['Email'] = $validUser->getEmail();
+        updateSession($validUser);
 		
         if (isset($_SESSION['redirect'])) {
             $redirect = $_SESSION['redirect'];
@@ -35,16 +31,16 @@ function post_index($params) {
         redirectRelative("index");
     } 
     else {
-    // @formatter:off
-    renderTemplate(
-        "views/login_view.inc",
-        array(
-            'title' => 'Login',
-            'errors' => "Invalid username/password",
-            'username' => $username,
-            'password' => $password
-        )
-    );
-    // @formatter:on
+        // @formatter:off
+        renderTemplate(
+            "views/login_view.inc",
+            array(
+                'title' => 'Login',
+                'errors' => array("Invalid username/password"),
+                'username' => $username,
+                'password' => $password
+            )
+        );
+        // @formatter:on
     }
 }

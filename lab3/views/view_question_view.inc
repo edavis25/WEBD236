@@ -3,7 +3,9 @@
 <h1>{{ $title }}</h1>
 <hr />
 <p>Posted on: {{$question->getDate()}} by <a href="@@user/view_user/{{ $question->getUserId() }}@@">{{ $question->getAuthorName() }}</a></p>
-<p>Tags: {{ ($question->getTags()) ? $question->getTags() : "<i>none</i>" }}</p>
+
+%% views/tags_view.inc %%
+
 <p class="question-content">{{ nl2br($question->getContent()) }}</p>
 
 <!-- Add edit/delete links if user is question author -->

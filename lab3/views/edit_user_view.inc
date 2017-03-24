@@ -2,9 +2,7 @@
 
 <h1>{{ $title }}</h1>
 
-<div id="errors">
-    {{ isset($errors) ? $errors."<br />" : '' }}
-</div>
+%% views/errors.inc %%
 
 <br />
 

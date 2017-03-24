@@ -94,6 +94,20 @@ class Question extends Model {
 	return self::makeQuestionsFromRows($rows);
     }
     
+    public static function retrieveQuestionsByTagName($tag) {
+        $db = self::getDb();
+
+        $sql = "SELECT * FROM Questions WHERE Tags LIKE :tag ORDER BY Date DESC";
+        
+        $statement = $db -> prepare($sql);
+        $tag = "%$tag%"; // Add wildcards
+        $statement -> bindParam(':tag', $tag);
+        $statement -> execute();
+        
+        $rows = $statement -> fetchAll(PDO::FETCH_ASSOC);
+        return self::makeQuestionsFromRows($rows);
+    }
+    
     public function insertQuestion() {
 	$db = self::getDb();
 	

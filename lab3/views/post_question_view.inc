@@ -1,9 +1,9 @@
 %% views/header.inc %%
 
 <h1>{{ $title }}</h1>
-<div id="errors">
-	{{ isset($errors) ? $errors."<br />" : '' }}
-</div>
+
+%% views/errors.inc %%
+
 <form action="@@questions/add_question@@" method="post">
 	<label for="title">Title</label>
 	<br />

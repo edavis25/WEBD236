@@ -2,6 +2,14 @@
 /**
  * Utility functions, parameter processing functions, and the renderTemplate functions...
  */
+
+function updateSession($user) {
+    $_SESSION['loggedin'] = true;
+    $_SESSION['UserID'] = $user->getId();
+    $_SESSION['FirstName'] = $user->getFirstName();
+    $_SESSION['LastName'] = $user->getLastName();
+    $_SESSION['Email'] = $user->getEmail();
+}
  
 function isLoggedIn() {
     $inSession = session_id();
