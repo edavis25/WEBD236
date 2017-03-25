@@ -1,23 +1,17 @@
 %% views/header.inc %%
 
-<h1> {{ $title }}</h1>
-<h3>{{ $subtitle }}</h3>
+<h1> {{ isset($title) ? $title : '' }}</h1>
+<h3>{{ isset($subtitle) ? $subtitle : '' }}</h3>
 
 <!-- outer row loop -->
-<?php foreach ($data as $row): ?>
-	<div class="question">
-		<a href="@@questions/view_question/{{$row['QuestionID']}}@@"> {{ $row['Title'] }}</a>
-		<br />
-		Posted: {{ $row['Date'] }} by <a href="@@user/view_user/{{ $row['UserID'] }}@@">{{ $row['Author'] }}</a>
-		<br />
-		{{ ($row['Tags']) ? "Tags: " . $row['Tags'] : '' }}
-		<p class="question-content"> {{ substr($row['Content'], 0, 240).".." }}</p>
-	</div>
-<?php endforeach ?>
+[[ foreach ($questions as $question): ]]
+    %% views/question_preview.inc %%
+[[ endforeach; ]]
 
-
-<!-- <a href="@@questions/view_question/{{$record['id']}}@@">[View]</a -->
 <br />
-<a href="@@questions/post_question/@@">[Post new question]</a>
+
+[[ if (isLoggedIn()) : ]]
+    <a href="@@questions/post_question/{{ isset($prefillTag) ? $prefillTag : '' }}@@">{{ $newQuestionButtonText }}</a>
+[[ endif; ]]
 
 %% views/footer.inc %%

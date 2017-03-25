@@ -2,6 +2,14 @@
 /**
  * Utility functions, parameter processing functions, and the renderTemplate functions...
  */
+
+function updateSession($user) {
+    $_SESSION['loggedin'] = true;
+    $_SESSION['UserID'] = $user->getId();
+    $_SESSION['FirstName'] = $user->getFirstName();
+    $_SESSION['LastName'] = $user->getLastName();
+    $_SESSION['Email'] = $user->getEmail();
+}
  
 function isLoggedIn() {
     $inSession = session_id();
@@ -18,6 +26,13 @@ function ensureLoggedIn() {
         $_SESSION['redirect'] = $_SERVER['REQUEST_URI'];
         redirectRelative('login');
         exit();
+    }
+}
+
+function ensureLoggedInUserIs($id) {
+    ensureLoggedIn();
+    if ($_SESSION['UserID'] != $id) {
+        die("You aren't authorized for this action.");
     }
 }
 
@@ -65,7 +80,7 @@ function safeGet($array, $key, $default=false) {
 // a default if no key is present.
 function safeParam($arr, $index, $default=false) {
     if ($arr && isset($arr[$index])) {
-        return htmlentities($arr[$index]);
+        return htmlentities(trim($arr[$index]));
     }
     return $default;
 }

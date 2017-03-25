@@ -36,36 +36,35 @@
 			</div>
 
 
-<h1> <?php echo( isset($title) ? $title : '' ); ?></h1>
-<h3><?php echo( isset($subtitle) ? $subtitle : '' ); ?></h3>
+<h1><?php echo( $title ); ?></h1>
 
-<!-- outer row loop -->
-<?php  foreach ($questions as $question): ?>
-    <div class="question">
-    <a href="/lab/lab3/questions/view_question/<?php echo($question->getId()); ?>"> <?php echo( $question->getTitle() ); ?></a>
-    <br />
-    Posted: <?php echo( $question->getDate() ); ?> by <a href="/lab/lab3/user/view_user/<?php echo( $question->getUserId() ); ?>"><?php echo( User::getFullName($question->getUserId()) ); ?></a>
-    <br />
-    <span>
-<?php  
-    $tags = explode(' ', $question->getTags());
-    if ($tags[0]) {
-        echo "Tags:";
-    }
-    foreach($tags as $tag) : 
-?> 
-    <a href="/lab/lab3/tag/view_questions/<?php echo( $tag ); ?>"><?php echo( $tag ); ?></a>
-<?php   endforeach; ?>
-</span>
-    <p class="question-content"> <?php echo( substr($question->getContent(), 0, 240).".." ); ?></p>
+<div id="errors">
+    <?php  if (isset($errors) && count($errors) > 0) : ?>
+        <ul>
+            <?php  foreach($errors as $error) : ?>
+                <li><?php echo( $error ); ?></li>
+            <?php  endforeach; ?>
+        </ul>
+    <?php  endif; ?>
 </div>
-<?php  endforeach; ?>
 
+<form action="/lab/lab3/questions/add_question" method="post">
+    <label for="title">Title</label>
+    <br />
+    <input type="text" id="title" name="title" class="full-width" value= "<?php echo( isset($inputs['title']) ? $inputs['title'] : '' ); ?>" />
+    <br />
+    <label for="content-textarea">Content</label>
+    <br />
+    <textarea name="content" id="content-textarea" rows="15" class="full-width"><?php echo( isset($inputs['content']) ? $inputs['content'] : '' ); ?></textarea>
+    <br />
+    <label for="tags">Tags</label>
+    <input type="text" id="tags" name="tags" class="full-width" value="<?php echo( isset($inputs['tags']) ? $inputs['tags'] : '' ); ?>" />
+    <br />
+    <br />
+    <input type="submit" value="Post Question" id="submit-question" />
+</form>
 <br />
-
-<?php  if (isLoggedIn()) : ?>
-    <a href="/lab/lab3/questions/post_question/<?php echo( isset($prefillTag) ? $prefillTag : '' ); ?>"><?php echo( $newQuestionButtonText ); ?></a>
-<?php  endif; ?>
+<a href="/lab/lab3/index">&lt;&lt; Back</a>
 
 	
 </div> <!-- End content wrapper -->
