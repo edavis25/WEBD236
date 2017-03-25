@@ -4,6 +4,7 @@ include_once 'include/util.inc';
 include_once 'models/Validator.inc';
 include_once 'models/User.inc';
 include_once 'models/Question.inc';
+include_once 'models/Answer.inc';
 
 // View user
 function get_view_user($params) {
@@ -191,6 +192,7 @@ function get_delete_user($params) {
 
     $user = User::retrieveUserById($id);
     Question::deleteQuestionsByUserId($user->getId());
+    Answer::deleteAnswersByUserId($user->getId());
     $user->deleteUser();
     
     redirectRelative("logout");

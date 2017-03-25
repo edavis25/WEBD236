@@ -31,8 +31,12 @@ class User extends Model {
         $this->lastName = $name;
     }
     
-    public function getFullName() {
-        return $this->firstName . " " . $this->lastName;
+    public static function getFullName($id) {
+        $user = self::retrieveUserById($id);
+        if ($user) {
+            return $user->getFirstName() . " " . $user->getLastName();
+        }
+        return false;
     }
     
     public function getEmail() {

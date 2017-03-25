@@ -80,7 +80,7 @@ function safeGet($array, $key, $default=false) {
 // a default if no key is present.
 function safeParam($arr, $index, $default=false) {
     if ($arr && isset($arr[$index])) {
-        return htmlentities($arr[$index]);
+        return htmlentities(trim($arr[$index]));
     }
     return $default;
 }

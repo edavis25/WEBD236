@@ -1,7 +1,7 @@
 <?php
 require_once 'models/Model.inc';
 require_once 'include/util.inc';
-require_once 'models/User.inc';
+include_once 'models/User.inc';
 
 class Question extends Model {
     private $date;
@@ -52,11 +52,6 @@ class Question extends Model {
     }
     public function setUserId($id) {
         $this->userId = $id;
-    }
-    
-    public function getAuthorName() {
-        $user = User::retrieveUserById($this->userId);
-        return $user->getFullName();
     }
     
     public static function retrieveRecentQuestions($limit = 5) {

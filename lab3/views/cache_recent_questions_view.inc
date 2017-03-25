@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="/Aptana/lab2/lab3/css/style.css" />
+		<link rel="stylesheet" href="/lab/lab3/css/style.css" />
 		
 		<title><?php echo( $title ); ?></title>
 	</head>
@@ -16,15 +16,15 @@
 				<ul>
 					
 					<?php if (isLoggedIn()) : ?>
-						<li><a href="/Aptana/lab2/lab3/logout">Logout</a></li>
-						<li><a href="/Aptana/lab2/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
+						<li><a href="/lab/lab3/logout">Logout</a></li>
+						<li><a href="/lab/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
 					<?php  else : ?>
-						<li><a href="/Aptana/lab2/lab3/login">Login</a></li>
-						<li><a href="/Aptana/lab2/lab3/user/register">Register</a></li>	
+						<li><a href="/lab/lab3/login">Login</a></li>
+						<li><a href="/lab/lab3/user/register">Register</a></li>	
 					<?php  endif; ?>
 					
 					<!-- Home link always present -->
-					<li><a href="/Aptana/lab2/lab3/index">Home</a></li>
+					<li><a href="/lab/lab3/index">Home</a></li>
 				</ul>
 			</div>
 			
@@ -36,50 +36,88 @@
 			</div>
 
 
-<h1> <?php echo( $title ); ?></h1>
-<h3><?php echo( $subtitle ); ?></h3>
+<h1> <?php echo( isset($title) ? $title : '' ); ?></h1>
+<h3><?php echo( isset($subtitle) ? $subtitle : '' ); ?></h3>
 
 <!-- outer row loop -->
-<?php foreach ($data as $question): ?>
+<?php  foreach ($questions as $question): ?>
     <div class="question">
-        <a href="/Aptana/lab2/lab3/questions/view_question/<?php echo($question->getId()); ?>"> <?php echo( $question->getTitle() ); ?></a>
-        <br />
-        Posted: <?php echo( $question->getDate() ); ?> by <a href="/Aptana/lab2/lab3/user/view_user/<?php echo( $question->getUserId() ); ?>"><?php echo( $question->getAuthorName() ); ?></a>
-        <br />
-        <?php echo( ($question->getTags()) ? "Tags: " . $question->getTags() : '' ); ?>
-        <p class="question-content"> <?php echo( substr($question->getContent(), 0, 240).".." ); ?></p>
-    </div>
-<?php endforeach ?>
+    <a href="/lab/lab3/questions/view_question/<?php echo($question->getId()); ?>"> <?php echo( $question->getTitle() ); ?></a>
+    <br />
+    Posted: <?php echo( $question->getDate() ); ?> by <a href="/lab/lab3/user/view_user/<?php echo( $question->getUserId() ); ?>"><?php echo( User::getFullName($question->getUserId()) ); ?></a>
+    <br />
+    <span>
+<?php  
+    $tags = explode(' ', $question->getTags());
+    if ($tags[0]) {
+        echo "Tags:";
+    }
+    foreach($tags as $tag) : 
+?> 
+    <a href="/lab/lab3/tag/view_questions/<?php echo( $tag ); ?>"><?php echo( $tag ); ?></a>
+<?php   endforeach; ?>
+</span>
+    <p class="question-content"> <?php echo( substr($question->getContent(), 0, 240).".." ); ?></p>
+</div>
+<?php  endforeach; ?>
 
 <br />
 
 <?php  if (isLoggedIn()) : ?>
-    <a href="/Aptana/lab2/lab3/questions/post_question/">[Post new question]</a>
+    <a href="/lab/lab3/questions/post_question/<?php echo( isset($prefillTag) ? $prefillTag : '' ); ?>"><?php echo( $newQuestionButtonText ); ?></a>
 <?php  endif; ?>
 
 	
-	</div> <!-- End content wrapper -->
-	<footer>
-		&copy; Eric Davis
-	</footer>
-	
-	<!-- Javascript to toggle yes/no confirmation of delete -->
-	<script type="text/javascript">
-		function toggle(id) {
-	    	var elmt = document.getElementById(id);
+</div> <!-- End content wrapper -->
+<footer>
+    &copy; Eric Davis
+</footer>
+
+<!-- Javascript to toggle yes/no confirmation of delete -->
+<script src="/lab/lab3/js/jquery-3.2.0.min.js"></script>
+
+
+
+<script type="text/javascript">
+    /*
+    function toggle(id) {
+        //var elmt = document.getElementById(id);
+        var elmts = document.getElementsByClassName(id);
+        if (elmt) {
+            // If hidden, show element
+            var display = elmt.style.display;
+            if (display == "none") {
+                elmt.style.display = "inline-block";
+            } else {
+                // If already dispayed, hide element
+                elmt.style.display = "none";
+            }
+        }
+    }
+    */
+      function toggle(element) {
+        if (element) {
+           var display = element.style.display;
+           if (display == "none") {
+               element.style.display = "inline-block";
+           }
+           else {
+               element.style.display = "none";
+           }
+       }
+    }
+   
+     $('.delete-button').on('click', function() {
+        var parent = $(this).closest('div[class^="delete-wrapper"]');
+        
+        var div = parent.children();
+        toggle(div[1]);
+    });
     
-	    	if (elmt) {
-    			// If hidden, show element
-        		var display = elmt.style.display;
-				if (display == "none") {
-        	    	elmt.style.display = "inline-block";
-    	    	}
-	         else {
-         		// If already dispayed, hide element
-        	    elmt.style.display = "none";
-    	    	}
-	    	}
-		}
-	</script>
+ 
+    
+  
+
+</script>
 </body>
 </html>

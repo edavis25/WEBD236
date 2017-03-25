@@ -20,23 +20,23 @@
 <br />
 
 [[ if ($ownsAccount) : ]]
-<a href="@@user/edit_user/{{ $user->getId() }}@@">[Edit]</a>
-<a href="#" onclick="toggle('confirm-delete')">[Delete]</a>
-<div id="confirm-delete" style="display: none;">Are you sure? <a href="@@user/delete_user/{{ $user->getId() }}@@">yes</a> / <a href="#" onclick="toggle('confirm-delete')">no</a></div>
+<a href="@@user/edit_user/{{ $user->getId() }}@@">[ Edit ]</a>
+<!-- a href="#" onclick="toggle('confirm-delete')">[Delete]</a>
+<div id="confirm-delete" style="display: none;">Are you sure? <a href="@@user/delete_user/{{ $user->getId() }}@@">yes</a> / <a href="#" onclick="toggle('confirm-delete')">no</a></div -->
+<div class="delete-wrapper">
+    <a href="#" class="delete-button">[ Delete ]</a>&nbsp;
+    <div class="confirm-delete" style="display: none;"> 
+        <a href="@@user/delete_user/{{ $user->getId() }}@@"> yes</a> / <a href="#" class="delete-button">no</a>
+    </div>
+</div>
 [[ endif; ]]
 
-<h2>Questions By {{ $user->getFullName() }}</h2>
+<h2>Questions By {{ $user->getFirstName() . " " . $user->getLastName() }}</h2>
 
 [[ foreach ($questions as $question): ]]
-<div class="question">
-    <a href="@@questions/view_question/{{$question->getId()}}@@"> {{ $question->getTitle() }}</a>
-    <br />
-    Posted: {{ $question->getDate() }} by <a href="@@user/view_user/{{ $question->getUserId() }}@@">{{ $question->getAuthorName() }}</a>
-    <br />
-    {{ ($question->getTags()) ? "Tags: " . $question->getTags() : '' }}
-
-    <p class="question-content"> {{ substr($question->getContent(), 0, 240).".." }}</p>
-</div>
+    %% views/question_preview.inc %%
 [[ endforeach ]]
 
 %% views/footer.inc %%
+
+

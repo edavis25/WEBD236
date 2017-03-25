@@ -4,30 +4,23 @@ include_once "include/util.inc";
 include_once 'models/User.inc';
 include_once 'models/Question.inc';
 include_once 'models/Validator.inc';
+include_once 'models/Answer.inc';
 
 /**
  * Show recent questions as home page. 
  */
 function get_questions($params) {
     // Get question data
-<<<<<<< HEAD
     $questions = Question::retrieveRecentQuestions();
+    
     // @formatter: off
-=======
-    $data = Question::retrieveRecentQuestions();
-
->>>>>>> b41334cc1876124b03b9abd8fba09dff6b31770d
     renderTemplate(
         "views/recent_questions_view.inc", 
         array(
             'title' => 'A Questions & Answers Forum',
             'subtitle' => 'Recent Questions',
-<<<<<<< HEAD
             'questions' => $questions,
             'newQuestionButtonText' => '[Post New Question]'
-=======
-            'data' => $data
->>>>>>> b41334cc1876124b03b9abd8fba09dff6b31770d
         )
     );
     // @formatter: on
@@ -42,12 +35,15 @@ function get_view_question($params) {
     if ($id === false) {
         die("Error: No question selected.");
     }
-
+    
     // Retrieve question by ID (die if not found)
     $question = Question::retrieveQuestionById($id);
     if (!$question) {
         die("Question not found.");
     }
+    
+    // Get answers
+    $answers = Answer::retrieveAnswersByQuestionId($question->getId());
 
     // Flag for author edit/delete controls
     $isAuthor = (isLoggedIn() && $_SESSION['UserID'] == $question->getUserId());
@@ -57,7 +53,8 @@ function get_view_question($params) {
         array(
             'title' => $question->getTitle(),
             'question' => $question,
-            'isAuthor' => $isAuthor
+            'isAuthor' => $isAuthor,
+            'answers' => $answers
         )
     );
     // @formatter: on
@@ -72,14 +69,13 @@ function get_post_question($params) {
     
     // Look for prefilled tag
     $inputs['tags'] = safeParam($params, 0, null);
-    
+
     // @formatter: off
     renderTemplate(
         "views/post_question_view.inc", 
         array(
             'title' => 'Create a new question',
             'inputs' => $inputs
-            
         )
     );
     // @formatter: on
@@ -96,35 +92,24 @@ function post_add_question($params) {
     $inputs['title'] = safeParam($_POST, 'title', false);
     $inputs['content'] = safeParam($_POST, 'content', false);
     $inputs['tags'] = safeParam($_POST, 'tags', false);
-    
-<<<<<<< HEAD
+        
     $validator = new Validator();
     $validator -> required('title', $inputs['title'], 'Title missing');
     $validator -> required('content', $inputs['content'], 'Content missing');
     
     // If errors exist, required input missing - re-render the new question view.
     if ($validator->hasErrors()) {
-=======
-    $errors = validate_present(array('title', 'content'));
-    // If errors exist, required input is missing. Re-render the create a new question view.
-    // Send errors and any input that was already entered
-    if ($errors) {
->>>>>>> b41334cc1876124b03b9abd8fba09dff6b31770d
         // @formatter:off
         renderTemplate(
             "views/post_question_view.inc", 
             array(
                 'title' => 'Create a new question',
-<<<<<<< HEAD
                 'errors' => $validator->getErrors(),
-=======
-                'errors' => $errors,
->>>>>>> b41334cc1876124b03b9abd8fba09dff6b31770d
                 'inputs' => $inputs
             )
         );
         // @formatter:on
-        die; // If errors found, stop here
+        die; // Errors found, stop here
     }
 
     $userId = safeParam($_SESSION, 'UserID', false);
@@ -141,7 +126,7 @@ function post_add_question($params) {
 }
 
 /**
- * Delete a question from the DB. Rediect to recent questions homepage.
+ * Delete a question from the DB. Redirect to recent questions home page.
  */
 function get_delete_question($params) {
     // _GET question ID as safe param
@@ -156,6 +141,7 @@ function get_delete_question($params) {
     // Delete ONLY if the logged in user is the owner of the question
     ensureLoggedInUserIs($question->getUserId());
     if (isLoggedIn() && $_SESSION['UserID'] == $question->getUserId()) {
+        Answer::deleteAnswersByQuestionId($question->getId());
         $question->deleteQuestion();
     }
 
@@ -206,30 +192,19 @@ function post_edit_question($params) {
     $inputs['Tags'] = safeParam($_POST, 'tags', false);
     $inputs['QuestionID'] = safeParam($_POST, 'id', false);
     
-<<<<<<< HEAD
     $validator = new Validator();
     $validator -> required('title', $inputs['Title'], 'Title missing');
     $validator -> required('content', $inputs['Content'], 'Content missing');
     
     // If errors exist, required input missing - re-render the new question view.
     if ($validator->hasErrors()) {
-=======
-    $errors = validate_present(array('title', 'content'));
-    // If errors exist, required input is missing. Re-render the create a new question view.
-    // Send errors and any input that was already entered
-    if ($errors) {
->>>>>>> b41334cc1876124b03b9abd8fba09dff6b31770d
         $tempQuestion = new Question($inputs['QuestionID'], null, $inputs['Title'], $inputs['Content'], $inputs['Tags'], null);
         // @formatter:off
         renderTemplate(
             "views/edit_question_view.inc", 
             array(
                 'title' => 'Edit your question',
-<<<<<<< HEAD
                 'errors' => $validator->getErrors(),
-=======
-                'errors' => $errors,
->>>>>>> b41334cc1876124b03b9abd8fba09dff6b31770d
                 'question' => $tempQuestion
             )
         );
