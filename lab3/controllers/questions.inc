@@ -152,19 +152,17 @@ function get_delete_question($params) {
  * Get edit view for existing question
  */
 function get_edit_question($params) {
-    ensureLoggedIn();
-
     $id = safeParam($params, 0, false);
     if ($id === false) {
         die("Error: No question selected.");
     }
 
-    // Retrieve question by ID (die if not found)
     $question = Question::retrieveQuestionById($id);
     if (!$question) {
         die("Error: Question not found.");
     }
     
+    ensureLoggedInUserIs($question->getUserId());
     // Make sure the user is the owner (block URL fishing edits from non-owners)
     if (isLoggedIn() && $_SESSION['UserID'] == $question->getUserId()) {
         renderTemplate(

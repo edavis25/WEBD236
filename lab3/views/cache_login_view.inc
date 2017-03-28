@@ -2,38 +2,38 @@
 
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" href="/lab/lab3/css/style.css" />
-		
-		<title><?php echo( $title ); ?></title>
-	</head>
-	<body>
-		<!-- Page wrapper -->
-		<div id="content-wrapper">
-			
-			<!-- Navigation bar -->
-			<div id="nav">
-				<ul>
-					
-					<?php if (isLoggedIn()) : ?>
-						<li><a href="/lab/lab3/logout">Logout</a></li>
-						<li><a href="/lab/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
-					<?php  else : ?>
-						<li><a href="/lab/lab3/login">Login</a></li>
-						<li><a href="/lab/lab3/user/register">Register</a></li>	
-					<?php  endif; ?>
-					
-					<!-- Home link always present -->
-					<li><a href="/lab/lab3/index">Home</a></li>
-				</ul>
-			</div>
-			
-			<!-- User greeting -->
-			<div id="greeting">
-				<?php  if (isLoggedIn()) : ?>
-					<?php echo( "Welcome, " . safeParam($_SESSION, 'FirstName', false) ." ". safeParam($_SESSION, 'LastName', false) ."!" ); ?>
-				<?php  endif; ?>
-			</div>
+    <head>
+        <link rel="stylesheet" href="/lab/lab3/css/style.css" />
+
+        <title><?php echo( $title ); ?></title>
+    </head>
+    <body>
+        <!-- Page wrapper -->
+        <div id="content-wrapper">
+
+            <!-- Navigation bar -->
+            <div id="nav">
+                <ul>
+
+                    <?php if (isLoggedIn()) : ?>
+                    <li><a href="/lab/lab3/logout">Logout</a></li>
+                    <li><a href="/lab/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
+                    <?php  else : ?>
+                    <li><a href="/lab/lab3/login">Login</a></li>
+                    <li><a href="/lab/lab3/user/register">Register</a></li>	
+                    <?php  endif; ?>
+
+                    <!-- Home link always present -->
+                    <li><a href="/lab/lab3/index">Home</a></li>
+                </ul>
+            </div>
+
+            <!-- User greeting -->
+            <div id="greeting">
+                <?php  if (isLoggedIn()) : ?>
+                <?php echo( "Welcome, " . safeParam($_SESSION, 'FirstName', false) ." ". safeParam($_SESSION, 'LastName', false) ."!" ); ?>
+                <?php  endif; ?>
+            </div>
 
 
 <h1><?php echo( $title ); ?></h1>
@@ -72,22 +72,7 @@
 
 
 <script type="text/javascript">
-    /*
-    function toggle(id) {
-        //var elmt = document.getElementById(id);
-        var elmts = document.getElementsByClassName(id);
-        if (elmt) {
-            // If hidden, show element
-            var display = elmt.style.display;
-            if (display == "none") {
-                elmt.style.display = "inline-block";
-            } else {
-                // If already dispayed, hide element
-                elmt.style.display = "none";
-            }
-        }
-    }
-    */
+    
       function toggle(element) {
         if (element) {
            var display = element.style.display;

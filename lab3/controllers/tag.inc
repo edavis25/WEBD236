@@ -1,6 +1,8 @@
 <?php
 include_once 'include/util.inc';
 include_once 'models/Question.inc';
+include_once 'models/User.inc';
+include_once 'models/Answer.inc';
 
 function get_view_questions($params) {
     $tag = safeParam($params, 0, false);

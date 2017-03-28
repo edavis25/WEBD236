@@ -1,6 +1,6 @@
 <?php
 require_once 'models/Model.inc';
-require_once 'include/util.inc';
+include_once 'include/util.inc';
 
 class User extends Model {
     

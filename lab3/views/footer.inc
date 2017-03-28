@@ -10,22 +10,7 @@
 
 
 <script type="text/javascript">
-    /*
-    function toggle(id) {
-        //var elmt = document.getElementById(id);
-        var elmts = document.getElementsByClassName(id);
-        if (elmt) {
-            // If hidden, show element
-            var display = elmt.style.display;
-            if (display == "none") {
-                elmt.style.display = "inline-block";
-            } else {
-                // If already dispayed, hide element
-                elmt.style.display = "none";
-            }
-        }
-    }
-    */
+    
       function toggle(element) {
         if (element) {
            var display = element.style.display;

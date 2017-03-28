@@ -48,23 +48,25 @@
     <?php  endif; ?>
 </div>
 
-<form action="/lab/lab3/questions/add_question" method="post">
-    <label for="title">Title</label>
-    <br />
-    <input type="text" id="title" name="title" class="full-width" value= "<?php echo( isset($inputs['title']) ? $inputs['title'] : '' ); ?>" />
-    <br />
-    <label for="content-textarea">Content</label>
-    <br />
-    <textarea name="content" id="content-textarea" rows="15" class="full-width"><?php echo( isset($inputs['content']) ? $inputs['content'] : '' ); ?></textarea>
-    <br />
-    <label for="tags">Tags</label>
-    <input type="text" id="tags" name="tags" class="full-width" value="<?php echo( isset($inputs['tags']) ? $inputs['tags'] : '' ); ?>" />
-    <br />
-    <br />
-    <input type="submit" value="Post Question" id="submit-question" />
-</form>
 <br />
-<a href="/lab/lab3/index">&lt;&lt; Back</a>
+
+<form action="/lab/lab3/<?php echo( $form_action ); ?>" method="post">
+    <label for="first-name">First Name:</label><br />
+    <input type="text" id="first-name" name="first-name" class="full-width" value="<?php echo( $user->getFirstName() ); ?>" />
+
+    <label for="last-name">Last Name:</label><br />
+    <input type="text" id="last-name" name="last-name" class="full-width" value="<?php echo( $user->getLastName() ); ?>" />
+
+    <label for="username">Email Address:</label><br />
+    <input type="text" id="username" name="username" class="full-width" value="<?php echo( $user->getEmail() ); ?>" />
+
+    <label for="password">Password:</label><br />
+    <input type="text" id="password" name="password" class="full-width" value="<?php echo( $user->getPassword() ); ?>" />
+
+    <input type="hidden" id="user-id" name="user-id" value="<?php echo( $user->getId() ); ?>" />
+    
+    <input type="submit" id="login-submit" name="login-submit" value="<?php echo( $button_text ); ?>" />
+</form>
 
 	
 </div> <!-- End content wrapper -->

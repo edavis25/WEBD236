@@ -6,7 +6,6 @@ include_once 'models/User.inc';
 include_once 'models/Question.inc';
 include_once 'models/Answer.inc';
 
-// View user
 function get_view_user($params) {
     // Get userID and retreive user info
     $id = safeParam($params, 0, false);
@@ -94,7 +93,7 @@ function post_register($params) {
     $id = $user->insertUser();
     
     // Get new user from DB and log them in
-    $user = User::retrieveUserById($inputs[$id]);
+    $user = User::retrieveUserById($id);
     updateSession($user);
     
     ensureLoggedIn();
@@ -183,7 +182,7 @@ function post_edit_user($params) {
 }
 
 /**
- * Delete user and all their questions from the database
+ * Delete user and all their questions and answers from the database
  */
 function get_delete_user($params) {
     $id = safeParam($params, 0, false);

@@ -1,7 +1,6 @@
 <?php
 require_once 'models/Model.inc';
-require_once 'include/util.inc';
-include_once 'models/User.inc';
+include_once 'include/util.inc';
 
 class Question extends Model {
     private $date;
@@ -91,15 +90,17 @@ class Question extends Model {
     
     public static function retrieveQuestionsByTagName($tag) {
         $db = self::getDb();
-
-        $sql = "SELECT * FROM Questions WHERE Tags LIKE :tag ORDER BY Date DESC";
+        
+        // Because I couldn't figure out how to use REGEXPs with the PDO...
+        $sql = "SELECT * FROM Questions WHERE ' ' || Tags || ' ' LIKE :tag";
+        $tag = '% '.$tag.' %';
         
         $statement = $db -> prepare($sql);
-        $tag = "%$tag%"; // Add wildcards
         $statement -> bindParam(':tag', $tag);
         $statement -> execute();
-        
+       
         $rows = $statement -> fetchAll(PDO::FETCH_ASSOC);
+        
         return self::makeQuestionsFromRows($rows);
     }
     
