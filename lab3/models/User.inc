@@ -1,6 +1,7 @@
 <?php
 require_once 'models/Model.inc';
 include_once 'include/util.inc';
+include_once 'include/Logger.inc';
 
 class User extends Model {
     
@@ -141,12 +142,12 @@ class User extends Model {
 	$statement -> execute();
     }
     
-    private static function makeUserFromRow($row) {
+    public static function makeUserFromRow($row) {
         $user = new User($row['UserID'], $row['FirstName'], $row['LastName'], $row['Email'], $row['Password']);
         return $user;
     }
     
-    private static function makeUsersFromRows($rows) {
+    public static function makeUsersFromRows($rows) {
         $result = array();
         foreach ($rows as $row) {
             $result[] = self::makeUserFromRow($row);

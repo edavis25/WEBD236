@@ -36,10 +36,37 @@
             </div>
 
 
-<h1> <?php echo( isset($title) ? $title : '' ); ?></h1>
-<h3><?php echo( isset($subtitle) ? $subtitle : '' ); ?></h3>
+<h1><?php echo( $title ); ?></h1>
 
-<!-- outer row loop -->
+<table>
+    <tr>
+        <td>First Name: </td>
+        <td><?php echo( $user->getFirstName() ); ?></td>
+    </tr>
+    <tr>
+        <td>Last Name: </td>
+        <td><?php echo( $user->getLastName() ); ?></td>
+    </tr>
+    <tr>
+        <td>E-mail: </td>
+        <td><?php echo( $user->getEmail() ); ?></td>
+    </tr>
+</table>
+
+<br />
+
+<?php  if ($ownsAccount ||  Authenticator::instance() -> can('user_edit')) : ?>
+<a href="/Aptana/lab2/lab3/user/edit_user/<?php echo( $user->getId() ); ?>">[ Edit ]</a>
+<div class="delete-wrapper">
+    <a href="#" class="delete-button">[ Delete ]</a>&nbsp;
+    <div class="confirm-delete" style="display: none;"> 
+        <a href="/Aptana/lab2/lab3/user/delete_user/<?php echo( $user->getId() ); ?>"> yes</a> / <a href="#" class="delete-button">no</a>
+    </div>
+</div>
+<?php  endif; ?>
+
+<h2>Questions By <?php echo( $user->getFirstName() . " " . $user->getLastName() ); ?></h2>
+
 <?php  foreach ($questions as $question): ?>
     <div class="question">
     <a href="/Aptana/lab2/lab3/questions/view_question/<?php echo($question->getId()); ?>"> <?php echo( $question->getTitle() ); ?></a>
@@ -59,13 +86,7 @@
 </span>
     <p class="question-content"> <?php echo( substr($question->getContent(), 0, 240).".." ); ?></p>
 </div>
-<?php  endforeach; ?>
-
-<br />
-
-<?php  if (isLoggedIn()) : ?>
-    <a href="/Aptana/lab2/lab3/questions/post_question/<?php echo( isset($prefillTag) ? $prefillTag : '' ); ?>"><?php echo( $newQuestionButtonText ); ?></a>
-<?php  endif; ?>
+<?php  endforeach ?>
 
 	
 </div> <!-- End content wrapper -->
@@ -106,3 +127,5 @@
 </script>
 </body>
 </html>
+
+

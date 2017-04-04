@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/lab/lab3/css/style.css" />
+        <link rel="stylesheet" href="/Aptana/lab2/lab3/css/style.css" />
 
         <title><?php echo( $title ); ?></title>
     </head>
@@ -16,15 +16,15 @@
                 <ul>
 
                     <?php if (isLoggedIn()) : ?>
-                    <li><a href="/lab/lab3/logout">Logout</a></li>
-                    <li><a href="/lab/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
+                    <li><a href="/Aptana/lab2/lab3/logout">Logout</a></li>
+                    <li><a href="/Aptana/lab2/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
                     <?php  else : ?>
-                    <li><a href="/lab/lab3/login">Login</a></li>
-                    <li><a href="/lab/lab3/user/register">Register</a></li>	
+                    <li><a href="/Aptana/lab2/lab3/login">Login</a></li>
+                    <li><a href="/Aptana/lab2/lab3/user/register">Register</a></li>	
                     <?php  endif; ?>
 
                     <!-- Home link always present -->
-                    <li><a href="/lab/lab3/index">Home</a></li>
+                    <li><a href="/Aptana/lab2/lab3/index">Home</a></li>
                 </ul>
             </div>
 
@@ -50,7 +50,7 @@
 
 <br />
 
-<form action="/lab/lab3/<?php echo( $form_action ); ?>" method="post">
+<form action="/Aptana/lab2/lab3/<?php echo( $form_action ); ?>" method="post">
     <label for="first-name">First Name:</label><br />
     <input type="text" id="first-name" name="first-name" class="full-width" value="<?php echo( $user->getFirstName() ); ?>" />
 
@@ -75,7 +75,7 @@
 </footer>
 
 <!-- Javascript to toggle yes/no confirmation of delete -->
-<script src="/lab/lab3/js/jquery-3.2.0.min.js"></script>
+<script src="/Aptana/lab2/lab3/js/jquery-3.2.0.min.js"></script>
 
 
 

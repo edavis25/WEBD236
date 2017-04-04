@@ -5,6 +5,7 @@ include_once 'models/Validator.inc';
 include_once 'models/User.inc';
 include_once 'models/Question.inc';
 include_once 'models/Answer.inc';
+include_once 'include/Authenticator.inc';
 
 function get_view_user($params) {
     // Get userID and retreive user info
@@ -54,6 +55,7 @@ function get_register($params) {
  * Register user into the database (POST registration submit event)
  */
 function post_register($params) {
+    /*
     // Get post data
     $inputs['FirstName'] = safeParam($_POST, 'first-name', false);
     $inputs['LastName'] = safeParam($_POST, 'last-name', false);
@@ -73,6 +75,9 @@ function post_register($params) {
     // If errors found, gather any data entered by the user and re-render with errors shown
     if ($validator -> hasErrors()) {
         $tempUser = new User(null, $inputs['FirstName'], $inputs['LastName'], $inputs['Email'], $inputs['Password']);
+     */
+    $errors = validateUserForm();
+    if ($errors) {
         // @formatter: off
         renderTemplate(
             "views/edit_user_view.inc", 
@@ -80,22 +85,28 @@ function post_register($params) {
                 'title' => 'Register',
                 'form_action' => 'user/register',
                 'button_text' => 'Register',
-                'errors' => $validator ->getErrors(),
-                'user' => $tempUser
+                //'errors' => $validator ->getErrors(),
+                //'user' => $tempUser
+                'errors' => $errors['validator'] -> getErrors(),
+                'user' => $errors['user']
             )
         );
         // @formatter: on
         die; // Errors found, stop here after re-render
     }
 
+    $inputs = getUserFormInputs();
+    
     // Add user to DB
     $user = new User(null, $inputs['FirstName'], $inputs['LastName'], $inputs['Email'], $inputs['Password']);
     $id = $user->insertUser();
+    $user = User::retrieveUserById($id); // Retrieve newly created user object
     
-    // Get new user from DB and log them in
-    $user = User::retrieveUserById($id);
+    // Add user to "Users" group
+    $group = Group::findByName('Users');
+    $group ->addUser($user);
+    
     updateSession($user);
-    
     ensureLoggedIn();
     redirectRelative("index");
 }
@@ -105,13 +116,19 @@ function post_register($params) {
  */
 function get_edit_user($params) {
     $id = safeParam($params, 0, false);
+    if (!$id) {
+        die("Error. No user selected.");
+    }
     
-    ensureLoggedInUserIs($id);
-
     $user = User::retrieveUserById($id);
     if (!$user) {
         die("Error. User not found.");
     }
+    
+    if (!Authenticator::instance() -> can('user_edit')) {
+        ensureLoggedInUserIs($user->getId());
+    }
+    
     // @formatter: off
     renderTemplate(
         "views/edit_user_view.inc", 
@@ -129,29 +146,32 @@ function get_edit_user($params) {
  * Save edit user changes (edit user form POST submit event)
  */
 function post_edit_user($params) {
-    // Get post data
+    /* Get post data
     $inputs['FirstName'] = safeParam($_POST, 'first-name', false);
     $inputs['LastName'] = safeParam($_POST, 'last-name', false);
     $inputs['Email'] = safeParam($_POST, 'username', false);
     $inputs['Password'] = safeParam($_POST, 'password', false);
     $inputs['UserID'] = safeParam($_POST, 'user-id', false);
     
-    ensureLoggedInUserIs($inputs['UserID']);
-
     $validator = new Validator();
     $validator -> required('first-name', $inputs['FirstName'], 'First name required');
     $validator -> required('last-name', $inputs['LastName'], 'Last name required');
     $validator ->email('email', $inputs['Email']);
-    // Check email doesn't exist in DB already $ isnt owners
+    // Check email doesn't exist in DB already & isnt owners
     $userEmail = User::emailExists($inputs['Email']);
     if ($userEmail && $userEmail['UserID'] != $inputs['UserID']) {
         $validator ->addError('email-exists', 'Email address already in use');
     }
     $validator -> password('password', $inputs['Password']);
-
+    
     // If errors found, gather any data entered by the user and re-render with errors shown
     if ($validator->hasErrors()) {
         $tempUser = new User($inputs['UserID'], $inputs['FirstName'], $inputs['LastName'], $inputs['Email'], $inputs['Password']);
+        
+     */
+    
+    $errors = validateUserForm();
+    if ($errors) {
         // @formatter: off
         renderTemplate(
             "views/edit_user_view.inc", 
@@ -159,14 +179,22 @@ function post_edit_user($params) {
                 'title' => 'Edit User',
                 'form_action' => 'user/edit_user',
                 'button_text' => 'Save Changes',
-                'errors' => $validator->getErrors(),
-                'user' => $tempUser
+                //'errors' => $validator->getErrors(),
+                //'user' => $tempUser
+                'errors' => $errors['validator'] -> getErrors(),
+                'user' => $errors['user']
             )
         );
         // @formatter: on
         die; // Errors found, stop here after re-render
     }
-
+    
+    $inputs = getUserFormInputs();
+    
+    if (!Authenticator::instance() -> can('user_edit')) {
+        ensureLoggedInUserIs($inputs['UserID']);
+    }
+    
     // Update user information in the DB
     $user = User::retrieveUserById($inputs['UserID']);
     $user->setFirstName($inputs['FirstName']);
@@ -175,7 +203,10 @@ function post_edit_user($params) {
     $user->setPassword($inputs['Password']);
     $user->updateUser();
 
-    updateSession($user);
+    // Update session info only if user is modifying their own account
+    if ($_SESSION['UserID'] == $user->getId()) {
+        updateSession($user);
+    }
     
     $id = $user->getId();
     redirectRelative("user/view_user/$id");
@@ -187,12 +218,58 @@ function post_edit_user($params) {
 function get_delete_user($params) {
     $id = safeParam($params, 0, false);
 
-    ensureLoggedInUserIs($id);
-
+    if (!Authenticator::instance() -> can('user_delete')) {
+        ensureLoggedInUserIs($id);
+    }
+    
     $user = User::retrieveUserById($id);
     Question::deleteQuestionsByUserId($user->getId());
     Answer::deleteAnswersByUserId($user->getId());
     $user->deleteUser();
     
-    redirectRelative("logout");
+    if ($_SESSION['UserID'] == $id) {
+        redirectRelative("logout");
+    }
+    else {
+        redirectRelative("index");
+    }
+}
+
+function validateUserForm() {
+    $inputs = getUserFormInputs();
+    
+    // Validate POST data
+    $validator = new Validator();
+    $validator -> required('first-name', $inputs['FirstName'], 'First name required');
+    $validator -> required('last-name', $inputs['LastName'], 'Last name required');
+    $validator ->email('email', $inputs['Email']);
+    // Check email doesn't exist in DB already & isnt owners
+    $userEmail = User::emailExists($inputs['Email']);
+    if ($userEmail && $userEmail['UserID'] != $inputs['UserID']) {
+        $validator ->addError('email-exists', 'Email address already in use');
+    }
+    $validator -> password('password', $inputs['Password']);
+    
+    // If errors found, return an array containing validator and user objects for re-render
+    if ($validator->hasErrors()) {
+        $arr = array();
+        $arr['user'] = new User($inputs['UserID'], $inputs['FirstName'], $inputs['LastName'], $inputs['Email'], $inputs['Password']);
+        $arr['validator'] = $validator;
+        return $arr;
+    }
+    else {
+        return false;
+    }
+}
+
+function getUserFormInputs() {
+    $inputs = array();
+    
+    $inputs['FirstName'] = safeParam($_POST, 'first-name', null);
+    $inputs['LastName'] = safeParam($_POST, 'last-name', null);
+    $inputs['Email'] = safeParam($_POST, 'username', null);
+    $inputs['Password'] = safeParam($_POST, 'password', null);
+    $inputs['UserID'] = safeParam($_POST, 'user-id', null);
+    
+    return $inputs;
 }

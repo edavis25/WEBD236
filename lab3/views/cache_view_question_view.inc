@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/lab/lab3/css/style.css" />
+        <link rel="stylesheet" href="/Aptana/lab2/lab3/css/style.css" />
 
         <title><?php echo( $title ); ?></title>
     </head>
@@ -16,15 +16,15 @@
                 <ul>
 
                     <?php if (isLoggedIn()) : ?>
-                    <li><a href="/lab/lab3/logout">Logout</a></li>
-                    <li><a href="/lab/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
+                    <li><a href="/Aptana/lab2/lab3/logout">Logout</a></li>
+                    <li><a href="/Aptana/lab2/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
                     <?php  else : ?>
-                    <li><a href="/lab/lab3/login">Login</a></li>
-                    <li><a href="/lab/lab3/user/register">Register</a></li>	
+                    <li><a href="/Aptana/lab2/lab3/login">Login</a></li>
+                    <li><a href="/Aptana/lab2/lab3/user/register">Register</a></li>	
                     <?php  endif; ?>
 
                     <!-- Home link always present -->
-                    <li><a href="/lab/lab3/index">Home</a></li>
+                    <li><a href="/Aptana/lab2/lab3/index">Home</a></li>
                 </ul>
             </div>
 
@@ -38,7 +38,7 @@
 
 <h1><?php echo( $title ); ?></h1>
 <hr />
-<p>Posted on: <?php echo($question->getDate()); ?> by <a href="/lab/lab3/user/view_user/<?php echo( $question->getUserId() ); ?>"><?php echo( User::getFullName($question->getUserId()) ); ?></a></p>
+<p>Posted on: <?php echo($question->getDate()); ?> by <a href="/Aptana/lab2/lab3/user/view_user/<?php echo( $question->getUserId() ); ?>"><?php echo( User::getFullName($question->getUserId()) ); ?></a></p>
 
 <span>
 <?php  
@@ -48,21 +48,19 @@
     }
     foreach($tags as $tag) : 
 ?> 
-    <a href="/lab/lab3/tag/view_questions/<?php echo( $tag ); ?>"><?php echo( $tag ); ?></a>
+    <a href="/Aptana/lab2/lab3/tag/view_questions/<?php echo( $tag ); ?>"><?php echo( $tag ); ?></a>
 <?php   endforeach; ?>
 </span>
 
 <p class="question-content"><?php echo( nl2br($question->getContent()) ); ?></p>
 
 <!-- Add edit/delete links if user is question author -->
-<?php  if ($isAuthor) : ?>
-    <a href="/lab/lab3/questions/edit_question/<?php echo( $question->getId() ); ?>">[ Edit ]</a>
-    <!-- a href="#" onclick="toggle('confirm-delete')">[Delete]</a>
-    <div id="confirm-delete" style="display: none;">Are you sure? <a href="/lab/lab3/questions/delete_question/<?php echo( $question->getId() ); ?>">yes</a> / <a href="#" onclick="toggle('confirm-delete')">no</a></div -->
+<?php  if ( $isAuthor || Authenticator::instance() -> can('question_edit')) : ?>
+    <a href="/Aptana/lab2/lab3/questions/edit_question/<?php echo( $question->getId() ); ?>">[ Edit ]</a>
     <div class="delete-wrapper">
         <a href="#" class="delete-button">[ Delete ]</a>&nbsp;
         <div class="confirm-delete" style="display: none;"> 
-            <a href="/lab/lab3/questions/delete_question/<?php echo( $question->getId() ); ?>"> yes</a> / <a href="#" class="delete-button">no</a>
+            <a href="/Aptana/lab2/lab3/questions/delete_question/<?php echo( $question->getId() ); ?>"> yes</a> / <a href="#" class="delete-button">no</a>
         </div>
     </div>
     
@@ -70,7 +68,7 @@
 <?php  endif; ?>
 
 <br />
-<?php  if (isLoggedIn()) : ?>
+<?php  if (Authenticator::instance() -> can('answer_create')) : ?>
     <div class="answer-form">
     <div id="errors">
     <?php  if (isset($errors) && count($errors) > 0) : ?>
@@ -82,7 +80,7 @@
     <?php  endif; ?>
 </div>
     Add an answer
-    <form method="POST" action="/lab/lab3/answers/add_answer">
+    <form method="POST" action="/Aptana/lab2/lab3/answers/add_answer">
         <textarea name="answer-content" class="answer-textarea" rows="3"></textarea>
         <br />
         <input type="hidden" name="question-id" value="<?php echo( $question->getId() ); ?>" />
@@ -99,7 +97,7 @@
         <div class="answer">
     Posted <?php echo( $answer->getDate() ); ?> by 
     
-    <a href="/lab/lab3/user/view_user/<?php echo( $answer->getUserId() ); ?>"><?php echo( User::getFullName($answer->getUserId()) ); ?></a>
+    <a href="/Aptana/lab2/lab3/user/view_user/<?php echo( $answer->getUserId() ); ?>"><?php echo( User::getFullName($answer->getUserId()) ); ?></a>
     
     <div class="answer-content">
         <?php echo( nl2br($answer->getContent()) ); ?>
@@ -109,7 +107,7 @@
         <div class="delete-wrapper">
             <a href="#" class="delete-button">[ Delete ]</a>&nbsp;
             <div class="confirm-delete" style="display: none;"> 
-                <a href="/lab/lab3/answers/delete_answer/<?php echo( $answer->getId() ); ?>"> yes</a> / <a href="#" class="delete-button">no</a>
+                <a href="/Aptana/lab2/lab3/answers/delete_answer/<?php echo( $answer->getId() ); ?>"> yes</a> / <a href="#" class="delete-button">no</a>
             </div>
         </div>
       
@@ -126,7 +124,7 @@
 </footer>
 
 <!-- Javascript to toggle yes/no confirmation of delete -->
-<script src="/lab/lab3/js/jquery-3.2.0.min.js"></script>
+<script src="/Aptana/lab2/lab3/js/jquery-3.2.0.min.js"></script>
 
 
 

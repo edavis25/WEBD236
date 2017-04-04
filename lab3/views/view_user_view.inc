@@ -19,10 +19,8 @@
 
 <br />
 
-[[ if ($ownsAccount) : ]]
+[[ if ($ownsAccount ||  Authenticator::instance() -> can('user_edit')) : ]]
 <a href="@@user/edit_user/{{ $user->getId() }}@@">[ Edit ]</a>
-<!-- a href="#" onclick="toggle('confirm-delete')">[Delete]</a>
-<div id="confirm-delete" style="display: none;">Are you sure? <a href="@@user/delete_user/{{ $user->getId() }}@@">yes</a> / <a href="#" onclick="toggle('confirm-delete')">no</a></div -->
 <div class="delete-wrapper">
     <a href="#" class="delete-button">[ Delete ]</a>&nbsp;
     <div class="confirm-delete" style="display: none;"> 

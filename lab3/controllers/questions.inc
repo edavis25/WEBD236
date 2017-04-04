@@ -5,7 +5,7 @@ include_once 'models/User.inc';
 include_once 'models/Question.inc';
 include_once 'models/Validator.inc';
 include_once 'models/Answer.inc';
-
+include_once 'include/Authenticator.inc';
 /**
  * Show recent questions as home page. 
  */
@@ -46,7 +46,8 @@ function get_view_question($params) {
     $answers = Answer::retrieveAnswersByQuestionId($question->getId());
 
     // Flag for author edit/delete controls
-    $isAuthor = (isLoggedIn() && $_SESSION['UserID'] == $question->getUserId());
+    $isAuthor = ( isLoggedIn() && $_SESSION['UserID'] == $question->getUserId() );
+    
     // @formatter: off
     renderTemplate(
         "views/view_question_view.inc", 
@@ -139,11 +140,15 @@ function get_delete_question($params) {
     }
 
     // Delete ONLY if the logged in user is the owner of the question
-    ensureLoggedInUserIs($question->getUserId());
-    if (isLoggedIn() && $_SESSION['UserID'] == $question->getUserId()) {
+    //ensureLoggedInUserIs($question->getUserId());
+    if (!Authenticator::instance() -> can('question_delete')) {
+        ensureLoggedInUserIs($question->getUserId());
+    }
+    
+    //if (isLoggedIn() && $_SESSION['UserID'] == $question->getUserId()) {
         Answer::deleteAnswersByQuestionId($question->getId());
         $question->deleteQuestion();
-    }
+    //}
 
     redirectRelative("questions/questions");
 }
@@ -156,14 +161,25 @@ function get_edit_question($params) {
     if ($id === false) {
         die("Error: No question selected.");
     }
-
+    
     $question = Question::retrieveQuestionById($id);
     if (!$question) {
         die("Error: Question not found.");
     }
     
-    ensureLoggedInUserIs($question->getUserId());
-    // Make sure the user is the owner (block URL fishing edits from non-owners)
+    if (!Authenticator::instance() -> can('question_edit')) {
+        ensureLoggedInUserIs($question->getUserId());
+    }
+    
+    renderTemplate(
+        "views/edit_question_view.inc", 
+        array(
+           'title' => 'Edit your question',
+           'question' => $question
+        )
+    );
+    
+    /* Make sure the user is the owner (block URL fishing edits from non-owners)
     if (isLoggedIn() && $_SESSION['UserID'] == $question->getUserId()) {
         renderTemplate(
             "views/edit_question_view.inc", 
@@ -177,6 +193,8 @@ function get_edit_question($params) {
         // User not owner, send em home
         redirectRelative("index");
     }
+     */
+    //redirectRelative("index");
 }
 
 /**
@@ -216,7 +234,10 @@ function post_edit_question($params) {
         die('No question found.');
     }
     
-    ensureLoggedInUserIs($question->getUserId());
+    if (!Authenticator::instance() -> can('question_edit')) {
+        ensureLoggedInUserIs($question->getUserId());
+    }
+    //ensureLoggedInUserIs($question->getUserId());
    
     $question->setTitle($inputs['Title']);
     $question->setContent($inputs['Content']);

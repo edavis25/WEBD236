@@ -9,10 +9,8 @@
 <p class="question-content">{{ nl2br($question->getContent()) }}</p>
 
 <!-- Add edit/delete links if user is question author -->
-[[ if ($isAuthor) : ]]
+[[ if ( $isAuthor || Authenticator::instance() -> can('question_edit')) : ]]
     <a href="@@questions/edit_question/{{ $question->getId() }}@@">[ Edit ]</a>
-    <!-- a href="#" onclick="toggle('confirm-delete')">[Delete]</a>
-    <div id="confirm-delete" style="display: none;">Are you sure? <a href="@@questions/delete_question/{{ $question->getId() }}@@">yes</a> / <a href="#" onclick="toggle('confirm-delete')">no</a></div -->
     <div class="delete-wrapper">
         <a href="#" class="delete-button">[ Delete ]</a>&nbsp;
         <div class="confirm-delete" style="display: none;"> 
@@ -24,7 +22,7 @@
 [[ endif; ]]
 
 <br />
-[[ if (isLoggedIn()) : ]]
+[[ if (Authenticator::instance() -> can('answer_create')) : ]]
     %% views/answer_form.inc %%
 [[ endif; ]]
 

@@ -3,6 +3,16 @@
  * Utility functions, parameter processing functions, and the renderTemplate functions...
  */
 
+function currentUser() {
+    $inSession = session_id();
+    if (!empty($inSession)) {
+        if (isset($_SESSION['UserID'])) {
+            return $_SESSION['UserID'];
+        }
+    }
+    return 0;
+}
+
 function updateSession($user) {
     $_SESSION['loggedin'] = true;
     $_SESSION['UserID'] = $user->getId();
@@ -32,7 +42,8 @@ function ensureLoggedIn() {
 function ensureLoggedInUserIs($id) {
     ensureLoggedIn();
     if ($_SESSION['UserID'] != $id) {
-        die("You aren't authorized for this action.");
+        Logger::instance() -> warn("User $id attempted unauthorized operation.");
+        die("You aren't authorized for this action. This attempt has been logged.");
     }
 }
 
