@@ -23,7 +23,7 @@ class Db {
 
             if ($makeDb) {
                 self::makeTables($db);
-                //self::populateTables($db); COMMENTED OUT!!!!!!!
+                self::populateTables($db);
             }
 
         } catch (PDOException $e) {
@@ -121,16 +121,45 @@ class Db {
                 $permissions[$name] = $p;
             }
         }
-
-        // set up Users group for new registrants
-        Logger::instance() -> info("Creating default Users group.");
-        $g = new Group( array('name' => 'Users'));
+     
+        // Setup "Users" group permissions
+        Logger::instance() -> info("Creating default Users group permissions.");
+        //$g = new Group( array('name' => 'Users'));
+        $g = new Group(null, 'Users');
         $g -> insert();
         foreach ($userperms as $name) {
             $g -> addPermission($permissions[$name]);
         }
-
-        // set up the super-user
+        
+        // Setup "Editors" group permissions
+        Logger::instance() -> info("Creating default Editors group permissions.");
+        $g = new Group(null, 'Editors');
+        $g -> insert();
+        foreach ($editperms as $name) {
+            $g -> addPermission($permissions[$name]);
+        }
+        
+        // Setup "Admin" group permissions
+        Logger::instance() -> info("Creating default Admin group permissions.");
+        $g = new Group(null, 'Administrators');
+        $g -> insert();
+        foreach ($adminperms as $name) {
+            $g -> addPermission($permissions[$name]);
+        }
+        
+        // Set up the super-user
+        Logger::instance() -> info("Creating default super user.");
+        $user = new User(null, 'System', 'Administrator', 'admin', 'admin');
+        $id = $user -> insertUser();
+        // Get user from DB to include autoincremented ID
+        $user = User::retrieveUserById($id);
+        
+        $groups = Group::findAll();
+        foreach ($groups as $group) {
+            $group -> addUser($user);
+        }
+      
+        /* set up the super-user
         Logger::instance() -> info("Creating default Administrators group.");
         $u = new User( array('firstName' => 'System', 'lastName' => 'Administrator', 'email' => 'admin@example.com', 'password' => 'asdF123$'));
         $u -> insert();
@@ -140,6 +169,13 @@ class Db {
         foreach ($adminperms as $name) {
             $g -> addPermission($permissions[$name]);
         }
-
+         */
+    }
+    
+    protected static function adHocQuery($q) {
+        $db = self::getDb();
+        $st = $db -> prepare($q);
+        $st -> execute();
+        return $st -> fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -39,36 +39,19 @@
             </div>
 
 
-<h1> <?php echo( isset($title) ? $title : '' ); ?></h1>
-<h3><?php echo( isset($subtitle) ? $subtitle : '' ); ?></h3>
-
-<!-- outer row loop -->
-<?php  foreach ($questions as $question): ?>
-    <div class="question">
-    <a href="/lab/lab3/questions/view_question/<?php echo($question->getId()); ?>"> <?php echo( $question->getTitle() ); ?></a>
+<h1><?php echo( $title ); ?></h1>
+    <?php  foreach($groups as $group) :  ?>
+    <table style="border: 1px solid black; border-collapse: collapse">
+        <tr><th colspan="3"><?php echo( $group -> getName() ); ?></th></tr>
+        <tr style="border: 1px solid black;">
+            <td style="border: 1px solid black; padding: 5px"><a href=""> Members </a></td>
+            <td style="border: 1px solid black; padding: 5px"><a href=""> Permissions </a></td>
+            <td style="border: 1px solid black; padding: 5px"><a href=""> Delete </a></td>
+        </tr>
+    </table>
     <br />
-    Posted: <?php echo( $question->getDate() ); ?> by <a href="/lab/lab3/user/view_user/<?php echo( $question->getUserId() ); ?>"><?php echo( User::getFullName($question->getUserId()) ); ?></a>
-    <br />
-    <span>
-<?php  
-    $tags = explode(' ', $question->getTags());
-    if ($tags[0]) {
-        echo "Tags:";
-    }
-    foreach($tags as $tag) : 
-?> 
-    <a href="/lab/lab3/tag/view_questions/<?php echo( $tag ); ?>"><?php echo( $tag ); ?></a>
-<?php   endforeach; ?>
-</span>
-    <p class="question-content"> <?php echo( markdown(html_entity_decode(substr($question->getContent(), 0, 240)."...")) ); ?></p>
-</div>
-<?php  endforeach; ?>
-
-<br />
-
-<?php  if (isLoggedIn()) : ?>
-    <a href="/lab/lab3/questions/post_question/<?php echo( isset($prefillTag) ? $prefillTag : '' ); ?>"><?php echo( $newQuestionButtonText ); ?></a>
-<?php  endif; ?>
+    <?php  endforeach; ?>
+    
 
 	
 </div> <!-- End content wrapper -->

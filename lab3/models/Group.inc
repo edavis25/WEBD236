@@ -38,7 +38,7 @@ class Group extends Model {
     private static function fromRows($rows) {
         $result = array();
         foreach ($rows as $row) {
-            $result[] = new Group($row);
+            $result[] = new Group($row['GroupID'], $row['Name']);
         }
         return $result;
     }

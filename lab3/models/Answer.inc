@@ -1,6 +1,5 @@
 <?php
 require_once 'models/Model.inc';
-include_once 'include/util.inc';
 
 class Answer extends Model {
     private $userId;
@@ -45,7 +44,8 @@ class Answer extends Model {
     }
     
     public static function retrieveAnswerById($id) {
-        $db = self::getDb();
+        //$db = self::getDb();
+        $db = Db::getDb();
         
         $sql = "SELECT * FROM Answers WHERE AnswerID = :id";
         
@@ -58,7 +58,8 @@ class Answer extends Model {
     }
     
     public static function retrieveAnswersByQuestionId($id) {
-        $db = self::getDb();
+        //$db = self::getDb();
+        $db = Db::getDb();
         
         $sql = "SELECT * FROM Answers WHERE QuestionID = :id";
         
@@ -71,7 +72,9 @@ class Answer extends Model {
     }
     
     public static function deleteAnswersByQuestionId($id) {
-        $db = self::getDb();
+        //$db = self::getDb();
+        $db = Db::getDb();
+        
         $sql = "DELETE FROM Answers WHERE QuestionID = :id";
         
         $statement = $db -> prepare($sql);
@@ -80,7 +83,9 @@ class Answer extends Model {
     }
     
     public static function deleteAnswersByUserId($id) {
-        $db = self::getDb();
+        //$db = self::getDb();
+        $db = Db::getDb();
+        
         $sql = "DELETE FROM Answers WHERE UserID = :id";
         
         $statement = $db -> prepare($sql);
@@ -89,7 +94,8 @@ class Answer extends Model {
     }
     
     public function insertAnswer() {
-	$db = self::getDb();
+	//$db = self::getDb();
+        $db = Db::getDb();
 	
 	$sql = "INSERT INTO Answers (QuestionID, UserID, Date, Content)
 			VALUES (:questionId, :userId, :date, :content)";
@@ -107,7 +113,8 @@ class Answer extends Model {
     }
     
     public function deleteAnswer() {
-        $db = self::getDb();
+        //$db = self::getDb();
+        $db = Db::getDb();
 
         $sql = "DELETE FROM Answers WHERE AnswerID = :id";
         

@@ -1,6 +1,5 @@
 <?php
 require_once 'models/Model.inc';
-include_once 'include/util.inc';
 
 class Question extends Model {
     private $date;
@@ -54,7 +53,8 @@ class Question extends Model {
     }
     
     public static function retrieveRecentQuestions($limit = 5) {
-        $db = self::getDb();
+        //$db = self::getDb();
+        $db = Db::getDb();
         
         $st = $db -> prepare('SELECT * FROM Questions ORDER BY Date DESC LIMIT :limit');
         $st->bindParam(':limit', $limit);
@@ -65,7 +65,8 @@ class Question extends Model {
     }
     
     public static function retrieveQuestionById($id) {
-        $db = self::getDb();
+        //$db = self::getDb();
+        $db = Db::getDb();
         
         $st = $db -> prepare('SELECT * FROM Questions WHERE QuestionID = :id');
         $st -> bindParam(':id', $id);
@@ -76,7 +77,8 @@ class Question extends Model {
     }
     
     public static function retrieveQuestionsByUserId($id) {
-        $db = self::getDb();
+        //$db = self::getDb();
+        $db = Db::getDb();
         
         $sql = "SELECT * FROM Questions WHERE UserID = :id ORDER BY Date DESC";
 	
@@ -89,7 +91,8 @@ class Question extends Model {
     }
     
     public static function retrieveQuestionsByTagName($tag) {
-        $db = self::getDb();
+        //$db = self::getDb();
+        $db = Db::getDb();
         
         // Because I couldn't figure out how to use REGEXPs with the PDO...
         $sql = "SELECT * FROM Questions WHERE ' ' || Tags || ' ' LIKE :tag";
@@ -105,7 +108,8 @@ class Question extends Model {
     }
     
     public function insertQuestion() {
-	$db = self::getDb();
+	//$db = self::getDb();
+        $db = Db::getDb();
 	
 	$sql = "INSERT INTO Questions (Date, Title, Content, Tags, UserID) 
 			VALUES (:date, :title, :content, :tags, :userid)";
@@ -124,7 +128,8 @@ class Question extends Model {
     }
     
     public function deleteQuestion() {
-        $db = self::getDb();
+        //$db = self::getDb();
+        $db = Db::getDb();
 
         $sql = "DELETE FROM Questions WHERE QuestionID = :id";
         $statement = $db -> prepare($sql);
@@ -134,7 +139,8 @@ class Question extends Model {
     }
     
     public static function deleteQuestionsByUserId($id) {
-        $db = self::getDb();
+        //$db = self::getDb();
+        $db = Db::getDb();
 	
 	$sql = "DELETE FROM Questions WHERE UserID = :id";
 	
@@ -144,7 +150,8 @@ class Question extends Model {
     }
     
     public function updateQuestion() {
-	$db = self::getDb();
+	//$db = self::getDb();
+        $db = Db::getDb();
 		
 	$sql = "UPDATE Questions SET Title = :title, Content = :content, Tags = :tags WHERE QuestionID = :id";
         

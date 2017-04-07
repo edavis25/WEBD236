@@ -6,7 +6,9 @@
 
 %% views/tags_view.inc %%
 
-<p class="question-content">{{ nl2br($question->getContent()) }}</p>
+<p class="question-content">{{ markdown(html_entity_decode($question->getContent())) }}</p>
+
+
 
 <!-- Add edit/delete links if user is question author -->
 [[ if ( $isAuthor || Authenticator::instance() -> can('question_edit')) : ]]
@@ -35,3 +37,5 @@
 [[ endif; ]]
 
 %% views/footer.inc %%
+
+

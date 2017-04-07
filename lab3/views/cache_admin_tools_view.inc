@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/Aptana/lab2/lab3/css/style.css" />
+        <link rel="stylesheet" href="/lab/lab3/css/style.css" />
 
         <title><?php echo( $title ); ?></title>
     </head>
@@ -16,15 +16,18 @@
                 <ul>
 
                     <?php if (isLoggedIn()) : ?>
-                    <li><a href="/Aptana/lab2/lab3/logout">Logout</a></li>
-                    <li><a href="/Aptana/lab2/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
+                    <li><a href="/lab/lab3/logout">Logout</a></li>
+                        <?php  if (Authenticator::instance() -> can('admin_page')) : ?>
+                        <li><a href="/lab/lab3/admin">Administrator</a></li>
+                        <?php  endif; ?>
+                    <li><a href="/lab/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
                     <?php  else : ?>
-                    <li><a href="/Aptana/lab2/lab3/login">Login</a></li>
-                    <li><a href="/Aptana/lab2/lab3/user/register">Register</a></li>	
+                    <li><a href="/lab/lab3/login">Login</a></li>
+                    <li><a href="/lab/lab3/user/register">Register</a></li>	
                     <?php  endif; ?>
 
                     <!-- Home link always present -->
-                    <li><a href="/Aptana/lab2/lab3/index">Home</a></li>
+                    <li><a href="/lab/lab3/index">Home</a></li>
                 </ul>
             </div>
 
@@ -38,27 +41,11 @@
 
 <h1><?php echo( $title ); ?></h1>
 
-<div id="errors">
-    <?php  if (isset($errors) && count($errors) > 0) : ?>
-        <ul>
-            <?php  foreach($errors as $error) : ?>
-                <li><?php echo( $error ); ?></li>
-            <?php  endforeach; ?>
-        </ul>
-    <?php  endif; ?>
-</div>
-
-<br />
-
-<form action="/Aptana/lab2/lab3/login" method="post">
-    <label for="username">Email:</label><br />
-    <input type="text" id="username" name="username" class="full-width" />
-    <br />
-    <label for="password">Password:</label><br />
-    <input type="text" id="password" name="password" class="full-width" />
-    <br />
-    <input type="submit" id="login-submit" name="login-submit" value="Login" />
-</form>
+<ul>
+    <li><a href="/lab/lab3/group/manage_groups">Manage Groups &amp; Permissions</a></li>
+    <li><a href="">Manage Users</a></li>
+    <li><a href="">Clean Orphaned Files</a></li>
+</ul>
 
 	
 </div> <!-- End content wrapper -->
@@ -67,7 +54,7 @@
 </footer>
 
 <!-- Javascript to toggle yes/no confirmation of delete -->
-<script src="/Aptana/lab2/lab3/js/jquery-3.2.0.min.js"></script>
+<script src="/lab/lab3/js/jquery-3.2.0.min.js"></script>
 
 
 

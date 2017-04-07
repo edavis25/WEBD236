@@ -33,7 +33,7 @@
 
 [[ foreach ($questions as $question): ]]
     %% views/question_preview.inc %%
-[[ endforeach ]]
+[[ endforeach; ]]
 
 %% views/footer.inc %%
 

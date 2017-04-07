@@ -1,4 +1,8 @@
 <?php
+include_once 'models/Db.inc';
+include_once 'include/util.inc';
+include_once 'include/Logger.inc';
+
 class Model {
     protected $id;
 
@@ -16,7 +20,8 @@ class Model {
         $this -> id = $id;
         return $this;
     }
-
+    
+    /*
     protected static function getDb() {
         try {
             $db = new PDO('sqlite:lab2.db3');
@@ -25,13 +30,5 @@ class Model {
         }
         return $db;
     }
-
-    protected static function adHocQuery($q) {
-        $db = self::getDb();
-        $st = $db -> prepare($q);
-        $st -> execute();
-        return $st -> fetchAll(PDO::FETCH_ASSOC);
-    }
-
+    */
 }
-?>

@@ -4,9 +4,10 @@ include_once 'models/User.inc';
 include_once 'models/Question.inc';
 include_once 'models/Validator.inc';
 include_once 'models/Answer.inc';
+include_once 'include/Authenticator.inc';
 
 function post_add_answer($params) {
-    ensureLoggedIn();
+    Authenticator::instance() -> ensure('answer_create');
     
     // Get POST data
     $userId = safeParam($_SESSION, 'UserID', null);
@@ -60,10 +61,16 @@ function get_delete_answer($params) {
         die('Error: No answer found to delete');
     }
     
-    ensureLoggedInUserIs($answer->getUserId());
-    if (isLoggedIn() && $_SESSION['UserID'] == $answer->getUserId()) {
-        $answer->deleteAnswer();
+    if (!Authenticator::instance() -> can('answer_delete')) {
+        ensureLoggedInUserIs($answer->getUserId());
     }
+    
+    $answer->deleteAnswer();
+    
+    //ensureLoggedInUserIs($answer->getUserId());
+    //if (isLoggedIn() && $_SESSION['UserID'] == $answer->getUserId()) {
+        //$answer->deleteAnswer();
+    //}
 
     redirectRelative("questions/view_question/{$answer->getQuestionId()}");
 }

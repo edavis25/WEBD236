@@ -17,6 +17,9 @@
 
                     [[if (isLoggedIn()) : ]]
                     <li><a href="@@logout@@">Logout</a></li>
+                        [[ if (Authenticator::instance() -> can('admin_page')) : ]]
+                        <li><a href="@@admin@@">Administrator</a></li>
+                        [[ endif; ]]
                     <li><a href="@@user/view_user/{{safeParam($_SESSION, 'UserID', false)}}@@">My Profile</a></li>
                     [[ else : ]]
                     <li><a href="@@login@@">Login</a></li>

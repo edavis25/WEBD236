@@ -6,6 +6,7 @@ include_once 'models/Question.inc';
 include_once 'models/Validator.inc';
 include_once 'models/Answer.inc';
 include_once 'include/Authenticator.inc';
+
 /**
  * Show recent questions as home page. 
  */
@@ -120,7 +121,7 @@ function post_add_question($params) {
     $date = date("Y-m-d H:i:s");
 
     // Insert into DB and get the newly created ID for redirect    
-    $question = new Question(null, $date, $inputs['title'], $inputs['content'], $inputs['tags'], $userId);
+    $question = new Question(null, $date, trim($inputs['title']), $inputs['content'], trim($inputs['tags']), $userId);
     $id = $question->insertQuestion();
     
     redirectRelative("questions/view_question/$id");
@@ -214,7 +215,7 @@ function post_edit_question($params) {
     
     // If errors exist, required input missing - re-render the new question view.
     if ($validator->hasErrors()) {
-        $tempQuestion = new Question($inputs['QuestionID'], null, $inputs['Title'], $inputs['Content'], $inputs['Tags'], null);
+        $tempQuestion = new Question($inputs['QuestionID'], null, trim($inputs['Title']), $inputs['Content'], trim($inputs['Tags']), null);
         // @formatter:off
         renderTemplate(
             "views/edit_question_view.inc", 
@@ -239,9 +240,9 @@ function post_edit_question($params) {
     }
     //ensureLoggedInUserIs($question->getUserId());
    
-    $question->setTitle($inputs['Title']);
+    $question->setTitle(trim($inputs['Title']));
     $question->setContent($inputs['Content']);
-    $question->setTags($inputs['Tags']);
+    $question->setTags(trim($inputs['Tags']));
     $question->updateQuestion();
     
     redirectRelative('questions/view_question/' . $inputs['QuestionID']);
