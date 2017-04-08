@@ -9,9 +9,9 @@
     
     [[ if ( (isLoggedIn() && $_SESSION['UserID'] == $answer->getUserId()) || Authenticator::instance() -> can('answer_delete')) : ]]
         <div class="delete-wrapper">
-            <a href="#" class="delete-button">[ Delete ]</a>&nbsp;
+            <a href="##" class="delete-button">[ Delete ]</a>&nbsp;
             <div class="confirm-delete" style="display: none;"> 
-                <a href="@@answers/delete_answer/{{ $answer->getId() }}@@"> yes</a> / <a href="#" class="delete-button">no</a>
+                <a href="@@answers/delete_answer/{{ $answer->getId() }}@@"> yes</a> / <a href="##" class="delete-button">no</a>
             </div>
         </div>
     [[ endif; ]]

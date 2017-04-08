@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/lab/lab3/css/style.css" />
+        <link rel="stylesheet" href="/Aptana/lab2/lab3/css/style.css" />
 
         <title><?php echo( $title ); ?></title>
     </head>
@@ -16,18 +16,18 @@
                 <ul>
 
                     <?php if (isLoggedIn()) : ?>
-                    <li><a href="/lab/lab3/logout">Logout</a></li>
+                    <li><a href="/Aptana/lab2/lab3/logout">Logout</a></li>
                         <?php  if (Authenticator::instance() -> can('admin_page')) : ?>
-                        <li><a href="/lab/lab3/admin">Administrator</a></li>
+                        <li><a href="/Aptana/lab2/lab3/admin">Administrator</a></li>
                         <?php  endif; ?>
-                    <li><a href="/lab/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
+                    <li><a href="/Aptana/lab2/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
                     <?php  else : ?>
-                    <li><a href="/lab/lab3/login">Login</a></li>
-                    <li><a href="/lab/lab3/user/register">Register</a></li>	
+                    <li><a href="/Aptana/lab2/lab3/login">Login</a></li>
+                    <li><a href="/Aptana/lab2/lab3/user/register">Register</a></li>	
                     <?php  endif; ?>
 
                     <!-- Home link always present -->
-                    <li><a href="/lab/lab3/index">Home</a></li>
+                    <li><a href="/Aptana/lab2/lab3/index">Home</a></li>
                 </ul>
             </div>
 
@@ -42,8 +42,8 @@
 <h1><?php echo( $title ); ?></h1>
 
 <ul>
-    <li><a href="/lab/lab3/group/manage_groups">Manage Groups &amp; Permissions</a></li>
-    <li><a href="">Manage Users</a></li>
+    <li><a href="/Aptana/lab2/lab3/group/manage_groups">Manage Groups &amp; Permissions</a></li>
+    <li><a href="/Aptana/lab2/lab3/user/manage_users">Manage Users</a></li>
     <li><a href="">Clean Orphaned Files</a></li>
 </ul>
 
@@ -54,7 +54,7 @@
 </footer>
 
 <!-- Javascript to toggle yes/no confirmation of delete -->
-<script src="/lab/lab3/js/jquery-3.2.0.min.js"></script>
+<script src="/Aptana/lab2/lab3/js/jquery-3.2.0.min.js"></script>
 
 
 

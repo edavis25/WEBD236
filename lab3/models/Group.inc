@@ -55,7 +55,9 @@ class Group extends Model {
         $st = $db -> prepare("SELECT * FROM Groups WHERE GroupID = :id");
         $st -> bindParam(':id', $id);
         $st -> execute();
-        return new Group($st -> fetch(PDO::FETCH_ASSOC));
+        
+        $row = $st -> fetch(PDO::FETCH_ASSOC);
+        return new Group($row['GroupID'], $row['Name']);
     }
 
     public static function findByName($name) {
@@ -65,7 +67,6 @@ class Group extends Model {
         $st -> execute();
         
         $row = $st -> fetch(PDO::FETCH_ASSOC);
-        
         return new Group($row['GroupID'], $row['Name']);
     }
 
@@ -136,6 +137,7 @@ class Group extends Model {
 
     public function addPermission($permission) {
         $db = Db::getDb();
+
         $statement = $db -> prepare("INSERT INTO GroupPermissions (GroupID, PermissionID) VALUES (:groupId, :permissionId)");
         $statement -> bindValue(':groupId', $this -> getId());
         $statement -> bindValue(':permissionId', $permission -> getId());
@@ -152,7 +154,16 @@ class Group extends Model {
 
     public function getMembers() {
         $db = Db::getDb();
-        $statement = $db -> prepare("SELECT Users.UserID AS id, Users.FirstName AS firstName, Users.LastName AS lastName, Users.Password AS password FROM Users, UserGroups WHERE Users.UserID = UserGroups.UserID and UserGroups.GroupID = :id ORDER BY lastName, firstName");
+        $sql = "SELECT Users.UserID AS UserID,
+                    Users.FirstName AS FirstName, 
+                    Users.LastName AS LastName, 
+                    Users.Email AS Email,
+                    Users.Password AS Password
+                FROM Users, UserGroups 
+                WHERE Users.UserID = UserGroups.UserID and UserGroups.GroupID = :id 
+                ORDER BY LastName, FirstName";
+        
+        $statement = $db -> prepare($sql);
         $statement -> bindParam(':id', $this -> id);
         $statement -> execute();
         $rows = $statement -> fetchAll(PDO::FETCH_ASSOC);
@@ -179,7 +190,7 @@ class Group extends Model {
 
     public function getNonPermissions() {
         $db = Db::getDb();
-        $statement = $db -> prepare("SELECT * FROM Permissions WHERE Permissions.PermissionID NOT IN (SELECT Permissions.PermissionID FROM Permissions, GroupPermissions WHERE Permissions.PermissionID = GroupPermissions.PermissionID and GroupPermissions.GroupID = :id) ORDER BY Name;");
+        $statement = $db -> prepare("SELECT Permissions.PermissionID AS id, Permissions.Name as name FROM Permissions WHERE Permissions.PermissionID NOT IN (SELECT Permissions.PermissionID FROM Permissions, GroupPermissions WHERE Permissions.PermissionID = GroupPermissions.PermissionID and GroupPermissions.GroupID = :id) ORDER BY Name;");
         $statement -> bindParam(':id', $this -> id);
         $statement -> execute();
         $rows = $statement -> fetchAll(PDO::FETCH_ASSOC);

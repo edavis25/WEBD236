@@ -225,6 +225,12 @@ function get_delete_user($params) {
     $user = User::retrieveUserById($id);
     Question::deleteQuestionsByUserId($user->getId());
     Answer::deleteAnswersByUserId($user->getId());
+    
+    $groups = Group::findByUserId($user->getId());
+    foreach ($groups as $group) {
+        $group -> removeUser($user);
+    }
+        
     $user->deleteUser();
     
     if ($_SESSION['UserID'] == $id) {
@@ -233,6 +239,22 @@ function get_delete_user($params) {
     else {
         redirectRelative("index");
     }
+}
+
+function get_manage_users($params) {
+    Authenticator::instance() -> ensure('admin_page');
+    
+    $users = User::retrieveAllUsers();
+    
+    // @formatter: off
+    renderTemplate(
+        "views/users_manage_view.inc",
+        array(
+            'title' => "Manage Users",
+            'users' => $users
+        )
+    );
+    // @formatter: on
 }
 
 function validateUserForm() {

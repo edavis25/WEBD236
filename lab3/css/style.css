@@ -24,7 +24,7 @@ body {
 }
 
 #content-wrapper {
-    width: 50%;
+    width: 55%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
@@ -41,7 +41,7 @@ body {
     font-weight: 600;
 }
 
-h1, h2 {
+h1, h2, h3 {
     color: #410054;
 }
 
@@ -72,8 +72,6 @@ input, textarea {
 
 .answer-form {
     width: 65%;
-    /* margin-left: auto;
-    margin-right: auto; */
 }
 .answer-form textarea {
     width: 100%;
@@ -81,4 +79,29 @@ input, textarea {
 
 .delete-wrapper {
     display: inline;
+}
+
+.group-table {
+    border-collapse: collapse;
+    border: 1px solid #410054;
+    margin: 15px;
+}
+
+.group-table td, .group-table tr, .group-table th {
+    border: 1px solid #410054;
+    padding: 8px;
+}
+
+.users-table {
+    border-collapse: collapse;
+    border: 1px solid #410054;
+}
+
+.users-table td, .users-table tr, .users-table th {
+    border: 1px solid #410054;
+    padding: 5px;
+}
+
+.users-table tr:nth-child(even) {
+    background-color: rgba(65,0,84, 0.2);
 }

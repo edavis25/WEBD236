@@ -39,36 +39,37 @@
             </div>
 
 
-<h1> <?php echo( isset($title) ? $title : '' ); ?></h1>
-<h3><?php echo( isset($subtitle) ? $subtitle : '' ); ?></h3>
+<h1><?php echo( $title ); ?></h1>
 
-<!-- outer row loop -->
-<?php  foreach ($questions as $question): ?>
-    <div class="question">
-    <a href="/Aptana/lab2/lab3/questions/view_question/<?php echo($question->getId()); ?>"> <?php echo( $question->getTitle() ); ?></a>
-    <br />
-    Posted: <?php echo( $question->getDate() ); ?> by <a href="/Aptana/lab2/lab3/user/view_user/<?php echo( $question->getUserId() ); ?>"><?php echo( User::getFullName($question->getUserId()) ); ?></a>
-    <br />
-    <span>
-<?php  
-    $tags = explode(' ', $question->getTags());
-    if ($tags[0]) {
-        echo "Tags:";
-    }
-    foreach($tags as $tag) : 
-?> 
-    <a href="/Aptana/lab2/lab3/tag/view_questions/<?php echo( $tag ); ?>"><?php echo( $tag ); ?></a>
-<?php   endforeach; ?>
-</span>
-    <p class="question-content"> <?php echo( markdown(html_entity_decode(substr($question->getContent(), 0, 240)."...")) ); ?></p>
+<div id="errors">
+    <?php  if (isset($errors) && count($errors) > 0) : ?>
+        <ul>
+            <?php  foreach($errors as $error) : ?>
+                <li><?php echo( $error ); ?></li>
+            <?php  endforeach; ?>
+        </ul>
+    <?php  endif; ?>
 </div>
-<?php  endforeach; ?>
 
 <br />
 
-<?php  if (isLoggedIn()) : ?>
-    <a href="/Aptana/lab2/lab3/questions/post_question/<?php echo( isset($prefillTag) ? $prefillTag : '' ); ?>"><?php echo( $newQuestionButtonText ); ?></a>
-<?php  endif; ?>
+<form action="/Aptana/lab2/lab3/<?php echo( $form_action ); ?>" method="post">
+    <label for="first-name">First Name:</label><br />
+    <input type="text" id="first-name" name="first-name" class="full-width" value="<?php echo( $user->getFirstName() ); ?>" />
+
+    <label for="last-name">Last Name:</label><br />
+    <input type="text" id="last-name" name="last-name" class="full-width" value="<?php echo( $user->getLastName() ); ?>" />
+
+    <label for="username">Email Address:</label><br />
+    <input type="text" id="username" name="username" class="full-width" value="<?php echo( $user->getEmail() ); ?>" />
+
+    <label for="password">Password:</label><br />
+    <input type="text" id="password" name="password" class="full-width" value="<?php echo( $user->getPassword() ); ?>" />
+
+    <input type="hidden" id="user-id" name="user-id" value="<?php echo( $user->getId() ); ?>" />
+    
+    <input type="submit" id="login-submit" name="login-submit" value="<?php echo( $button_text ); ?>" />
+</form>
 
 	
 </div> <!-- End content wrapper -->

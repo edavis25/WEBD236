@@ -14,9 +14,9 @@
 [[ if ( $isAuthor || Authenticator::instance() -> can('question_edit')) : ]]
     <a href="@@questions/edit_question/{{ $question->getId() }}@@">[ Edit ]</a>
     <div class="delete-wrapper">
-        <a href="#" class="delete-button">[ Delete ]</a>&nbsp;
+        <a href="##" class="delete-button">[ Delete ]</a>&nbsp;
         <div class="confirm-delete" style="display: none;"> 
-            <a href="@@questions/delete_question/{{ $question->getId() }}@@"> yes</a> / <a href="#" class="delete-button">no</a>
+            <a href="@@questions/delete_question/{{ $question->getId() }}@@"> yes</a> / <a href="##" class="delete-button">no</a>
         </div>
     </div>
     

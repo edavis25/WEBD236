@@ -56,9 +56,10 @@ class Permission extends Model {
     
     public static function findById($id) {
         $db = Db::getDb();
-        $st = $db -> prepare("SELECT * FROM Permissions WHERE PermissionID = :id");
+        $st = $db -> prepare("SELECT PermissionID as id, Name as name FROM Permissions WHERE PermissionID = :id");
         $st -> bindParam(':id', $id);
         $st -> execute();
+        
         return new Permission($st -> fetch(PDO::FETCH_ASSOC));
     }
 

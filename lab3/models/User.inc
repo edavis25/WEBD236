@@ -66,6 +66,19 @@ class User extends Model {
         return self::makeUserFromRow($row);
     }
     
+    public static function retrieveAllUsers() {
+        $db = Db::getDb();
+        
+        $sql = "SELECT * FROM Users ORDER BY UserID";
+        
+        $statement = $db -> prepare($sql);
+        $statement -> execute();
+        $rows = $statement -> fetchAll(PDO::FETCH_ASSOC);
+        
+        return self::makeUsersFromRows($rows);
+    }
+    
+    
     public static function isValidUser($username, $password) {
         //$db = self::getDb();
         $db = Db::getDb();
