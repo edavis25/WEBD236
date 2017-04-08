@@ -5,7 +5,7 @@
 [[ foreach ($users as $user) : ]]
     <tr>
         <td><a href="@@user/view_user/{{$user->getId()}}@@">View</a></td>
-        <td><a href="">Groups</td>
+        <td><a href="@@user/user_groups/{{$user->getId()}}@@">Groups</td>
         <td>
             <div class="delete-wrapper">
                 <a href="##" class="delete-button"> Delete</a>&nbsp;

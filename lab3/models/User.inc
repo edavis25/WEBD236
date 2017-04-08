@@ -53,7 +53,6 @@ class User extends Model {
     }
     
     public static function retrieveUserById($id) {
-	//$db = self::getDb();
         $db = Db::getDb();
 	
         $sql = "SELECT * FROM Users WHERE UserID = :id";
@@ -80,7 +79,6 @@ class User extends Model {
     
     
     public static function isValidUser($username, $password) {
-        //$db = self::getDb();
         $db = Db::getDb();
         
 	$sql = "SELECT * FROM Users WHERE Email = :email AND Password = :password";
@@ -101,7 +99,6 @@ class User extends Model {
     }
     
     public static function emailExists($email) {
-	//$db = self::getDb();
         $db = Db::getDb();
         
 	$sql = "SELECT * FROM Users WHERE Email = :email";
@@ -114,7 +111,6 @@ class User extends Model {
     }
     
     public function insertUser() {
-        //$db = self::getDb();
         $db = Db::getDb();
 	
 	$sql = "INSERT INTO Users (FirstName, LastName, Email, Password) 
@@ -133,7 +129,6 @@ class User extends Model {
     }
     
     public function updateUser() {
-        //$db = self::getDb();
         $db = Db::getDb();
 	
 	$sql = "UPDATE Users SET FirstName = :first, LastName = :last, Email = :email, Password = :password
@@ -150,7 +145,6 @@ class User extends Model {
     }
     
     public function deleteUser() {
-        //$db = self::getDb();
         $db = Db::getDb();
 	
 	$sql = "DELETE FROM Users WHERE UserID = :id";

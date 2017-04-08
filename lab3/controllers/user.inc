@@ -55,27 +55,6 @@ function get_register($params) {
  * Register user into the database (POST registration submit event)
  */
 function post_register($params) {
-    /*
-    // Get post data
-    $inputs['FirstName'] = safeParam($_POST, 'first-name', false);
-    $inputs['LastName'] = safeParam($_POST, 'last-name', false);
-    $inputs['Email'] = safeParam($_POST, 'username', false);
-    $inputs['Password'] = safeParam($_POST, 'password', false);
-
-    $validator = new Validator();
-    $validator -> required('first-name', $inputs['FirstName'], 'First name required');
-    $validator -> required('last-name', $inputs['LastName'], 'Last name required');
-    $validator ->email('email', $inputs['Email']);
-    // Check email doesn't exist in DB already
-    if (User::emailExists($inputs['Email'])) {
-        $validator ->addError('email-exists', 'Email address already in use');
-    }
-    $validator -> password('password', $inputs['Password']);
-
-    // If errors found, gather any data entered by the user and re-render with errors shown
-    if ($validator -> hasErrors()) {
-        $tempUser = new User(null, $inputs['FirstName'], $inputs['LastName'], $inputs['Email'], $inputs['Password']);
-     */
     $errors = validateUserForm();
     if ($errors) {
         // @formatter: off
@@ -85,8 +64,6 @@ function post_register($params) {
                 'title' => 'Register',
                 'form_action' => 'user/register',
                 'button_text' => 'Register',
-                //'errors' => $validator ->getErrors(),
-                //'user' => $tempUser
                 'errors' => $errors['validator'] -> getErrors(),
                 'user' => $errors['user']
             )
@@ -99,7 +76,7 @@ function post_register($params) {
     
     // Add user to DB
     $user = new User(null, $inputs['FirstName'], $inputs['LastName'], $inputs['Email'], $inputs['Password']);
-    $id = $user->insertUser();
+    $id = $user -> insertUser();
     $user = User::retrieveUserById($id); // Retrieve newly created user object
     
     // Add user to "Users" group
@@ -145,31 +122,7 @@ function get_edit_user($params) {
 /**
  * Save edit user changes (edit user form POST submit event)
  */
-function post_edit_user($params) {
-    /* Get post data
-    $inputs['FirstName'] = safeParam($_POST, 'first-name', false);
-    $inputs['LastName'] = safeParam($_POST, 'last-name', false);
-    $inputs['Email'] = safeParam($_POST, 'username', false);
-    $inputs['Password'] = safeParam($_POST, 'password', false);
-    $inputs['UserID'] = safeParam($_POST, 'user-id', false);
-    
-    $validator = new Validator();
-    $validator -> required('first-name', $inputs['FirstName'], 'First name required');
-    $validator -> required('last-name', $inputs['LastName'], 'Last name required');
-    $validator ->email('email', $inputs['Email']);
-    // Check email doesn't exist in DB already & isnt owners
-    $userEmail = User::emailExists($inputs['Email']);
-    if ($userEmail && $userEmail['UserID'] != $inputs['UserID']) {
-        $validator ->addError('email-exists', 'Email address already in use');
-    }
-    $validator -> password('password', $inputs['Password']);
-    
-    // If errors found, gather any data entered by the user and re-render with errors shown
-    if ($validator->hasErrors()) {
-        $tempUser = new User($inputs['UserID'], $inputs['FirstName'], $inputs['LastName'], $inputs['Email'], $inputs['Password']);
-        
-     */
-    
+function post_edit_user($params) {   
     $errors = validateUserForm();
     if ($errors) {
         // @formatter: off
@@ -179,8 +132,6 @@ function post_edit_user($params) {
                 'title' => 'Edit User',
                 'form_action' => 'user/edit_user',
                 'button_text' => 'Save Changes',
-                //'errors' => $validator->getErrors(),
-                //'user' => $tempUser
                 'errors' => $errors['validator'] -> getErrors(),
                 'user' => $errors['user']
             )
@@ -237,7 +188,12 @@ function get_delete_user($params) {
         redirectRelative("logout");
     }
     else {
-        redirectRelative("index");
+        if (Authenticator::instance() -> can('admin_page')) {
+            redirectRelative('user/manage_users');
+        }
+        else {
+            redirectRelative("index");
+        }
     }
 }
 
@@ -252,6 +208,33 @@ function get_manage_users($params) {
         array(
             'title' => "Manage Users",
             'users' => $users
+        )
+    );
+    // @formatter: on
+}
+
+function get_user_groups($params) {
+    $id = safeParam($params, 0, false);
+    if (!$id) {
+        die("Error: No user id defined.");
+    }
+    
+    $user = User::retrieveUserById($id);
+    if (!$user) {
+        die("Error: No user with id $id found.");
+    }
+    
+    $member = Group::findByUserId($user->getId());
+    $nonmember = Group::findByNotUserId($user->getId());
+    
+    // @formatter: off
+    renderTemplate(
+        "views/user_groups_view.inc",
+        array(
+            'title' => User::getFullName($user->getId()) . " Group Membership",
+            'member' => $member,
+            'nonmember' => $nonmember,
+            'user' => $user
         )
     );
     // @formatter: on

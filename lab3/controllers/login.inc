@@ -1,6 +1,7 @@
 <?php
 include_once "include/util.inc";
 include_once 'models/User.inc';
+include_once 'include/Authenticator.inc';
 
 
 // Get view login view

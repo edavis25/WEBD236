@@ -158,18 +158,6 @@ class Db {
         foreach ($groups as $group) {
             $group -> addUser($user);
         }
-      
-        /* set up the super-user
-        Logger::instance() -> info("Creating default Administrators group.");
-        $u = new User( array('firstName' => 'System', 'lastName' => 'Administrator', 'email' => 'admin@example.com', 'password' => 'asdF123$'));
-        $u -> insert();
-        $g = new Group( array('name' => 'Administrators'));
-        $g -> insert();
-        $g -> addUser($u);
-        foreach ($adminperms as $name) {
-            $g -> addPermission($permissions[$name]);
-        }
-         */
     }
     
     protected static function adHocQuery($q) {

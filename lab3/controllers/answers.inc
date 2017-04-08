@@ -67,10 +67,5 @@ function get_delete_answer($params) {
     
     $answer->deleteAnswer();
     
-    //ensureLoggedInUserIs($answer->getUserId());
-    //if (isLoggedIn() && $_SESSION['UserID'] == $answer->getUserId()) {
-        //$answer->deleteAnswer();
-    //}
-
     redirectRelative("questions/view_question/{$answer->getQuestionId()}");
 }

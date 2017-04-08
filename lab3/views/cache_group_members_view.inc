@@ -38,59 +38,30 @@
                 <?php  endif; ?>
             </div>
 
-
 <h1><?php echo( $title ); ?></h1>
 
-<table>
+<h2>Members</h2>
+<table class="group-table">
+<?php  foreach ($members as $member) : ?>
     <tr>
-        <td>First Name: </td>
-        <td><?php echo( $user->getFirstName() ); ?></td>
+        <td><a href="/lab/lab3/group/remove_member/<?php echo($group->getId()); ?>/<?php echo($member->getId()); ?>">Remove</a></td>
+        <td><?php echo(User::getFullName($member->getId())); ?></td>
     </tr>
+<?php  endforeach; ?>
+</table>
+
+<h2>Non-members</h2>
+<table class="group-table">
+<?php  foreach ($nonmembers as $nonmember) : ?>
     <tr>
-        <td>Last Name: </td>
-        <td><?php echo( $user->getLastName() ); ?></td>
+        <td><a href="/lab/lab3/group/include_member/<?php echo($group->getId()); ?>/<?php echo($nonmember->getId()); ?>">Include</a></td>
+        <td><?php echo(User::getFullName($nonmember->getId())); ?></td>
     </tr>
-    <tr>
-        <td>E-mail: </td>
-        <td><?php echo( $user->getEmail() ); ?></td>
-    </tr>
+<?php  endforeach; ?>
 </table>
 
 <br />
-
-<?php  if ($ownsAccount ||  Authenticator::instance() -> can('user_edit')) : ?>
-<a href="/lab/lab3/user/edit_user/<?php echo( $user->getId() ); ?>">[ Edit ]</a>
-<div class="delete-wrapper">
-    <a href="#" class="delete-button">[ Delete ]</a>&nbsp;
-    <div class="confirm-delete" style="display: none;"> 
-        <a href="/lab/lab3/user/delete_user/<?php echo( $user->getId() ); ?>"> yes</a> / <a href="#" class="delete-button">no</a>
-    </div>
-</div>
-<?php  endif; ?>
-
-<h2>Questions By <?php echo( $user->getFirstName() . " " . $user->getLastName() ); ?></h2>
-
-<?php  foreach ($questions as $question): ?>
-    <div class="question">
-    <a href="/lab/lab3/questions/view_question/<?php echo($question->getId()); ?>"> <?php echo( $question->getTitle() ); ?></a>
-    <br />
-    Posted: <?php echo( $question->getDate() ); ?> by <a href="/lab/lab3/user/view_user/<?php echo( $question->getUserId() ); ?>"><?php echo( User::getFullName($question->getUserId()) ); ?></a>
-    <br />
-    <span>
-<?php  
-    $tags = explode(' ', $question->getTags());
-    if ($tags[0]) {
-        echo "Tags:";
-    }
-    foreach($tags as $tag) : 
-?> 
-    <a href="/lab/lab3/tag/view_questions/<?php echo( $tag ); ?>"><?php echo( $tag ); ?></a>
-<?php   endforeach; ?>
-</span>
-    <p class="question-content"> <?php echo( markdown(html_entity_decode(substr($question->getContent(), 0, 240)."...")) ); ?></p>
-</div>
-<?php  endforeach; ?>
-
+<a href="/lab/lab3/group/manage_groups">&lt;&lt; Back</a>
 	
 </div> <!-- End content wrapper -->
 <footer>
@@ -130,5 +101,3 @@
 </script>
 </body>
 </html>
-
-

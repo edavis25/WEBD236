@@ -140,16 +140,12 @@ function get_delete_question($params) {
         die("Error: Can't delete question. No question selected. <br /> <a href='" . relativeUrl("questions/questions") . "'>Home</a>");
     }
 
-    // Delete ONLY if the logged in user is the owner of the question
-    //ensureLoggedInUserIs($question->getUserId());
     if (!Authenticator::instance() -> can('question_delete')) {
         ensureLoggedInUserIs($question->getUserId());
     }
     
-    //if (isLoggedIn() && $_SESSION['UserID'] == $question->getUserId()) {
-        Answer::deleteAnswersByQuestionId($question->getId());
-        $question->deleteQuestion();
-    //}
+    Answer::deleteAnswersByQuestionId($question->getId());
+    $question->deleteQuestion();
 
     redirectRelative("questions/questions");
 }
@@ -179,23 +175,6 @@ function get_edit_question($params) {
            'question' => $question
         )
     );
-    
-    /* Make sure the user is the owner (block URL fishing edits from non-owners)
-    if (isLoggedIn() && $_SESSION['UserID'] == $question->getUserId()) {
-        renderTemplate(
-            "views/edit_question_view.inc", 
-            array(
-                'title' => 'Edit your question',
-                'question' => $question
-            )
-        );
-    } 
-    else {
-        // User not owner, send em home
-        redirectRelative("index");
-    }
-     */
-    //redirectRelative("index");
 }
 
 /**
@@ -238,7 +217,6 @@ function post_edit_question($params) {
     if (!Authenticator::instance() -> can('question_edit')) {
         ensureLoggedInUserIs($question->getUserId());
     }
-    //ensureLoggedInUserIs($question->getUserId());
    
     $question->setTitle(trim($inputs['Title']));
     $question->setContent($inputs['Content']);

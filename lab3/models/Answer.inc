@@ -44,7 +44,6 @@ class Answer extends Model {
     }
     
     public static function retrieveAnswerById($id) {
-        //$db = self::getDb();
         $db = Db::getDb();
         
         $sql = "SELECT * FROM Answers WHERE AnswerID = :id";
@@ -58,7 +57,6 @@ class Answer extends Model {
     }
     
     public static function retrieveAnswersByQuestionId($id) {
-        //$db = self::getDb();
         $db = Db::getDb();
         
         $sql = "SELECT * FROM Answers WHERE QuestionID = :id";
@@ -72,7 +70,6 @@ class Answer extends Model {
     }
     
     public static function deleteAnswersByQuestionId($id) {
-        //$db = self::getDb();
         $db = Db::getDb();
         
         $sql = "DELETE FROM Answers WHERE QuestionID = :id";
@@ -83,7 +80,6 @@ class Answer extends Model {
     }
     
     public static function deleteAnswersByUserId($id) {
-        //$db = self::getDb();
         $db = Db::getDb();
         
         $sql = "DELETE FROM Answers WHERE UserID = :id";
@@ -94,7 +90,6 @@ class Answer extends Model {
     }
     
     public function insertAnswer() {
-	//$db = self::getDb();
         $db = Db::getDb();
 	
 	$sql = "INSERT INTO Answers (QuestionID, UserID, Date, Content)
@@ -113,7 +108,6 @@ class Answer extends Model {
     }
     
     public function deleteAnswer() {
-        //$db = self::getDb();
         $db = Db::getDb();
 
         $sql = "DELETE FROM Answers WHERE AnswerID = :id";

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/Aptana/lab2/lab3/css/style.css" />
+        <link rel="stylesheet" href="/lab/lab3/css/style.css" />
 
         <title><?php echo( $title ); ?></title>
     </head>
@@ -16,18 +16,18 @@
                 <ul>
 
                     <?php if (isLoggedIn()) : ?>
-                    <li><a href="/Aptana/lab2/lab3/logout">Logout</a></li>
+                    <li><a href="/lab/lab3/logout">Logout</a></li>
                         <?php  if (Authenticator::instance() -> can('admin_page')) : ?>
-                        <li><a href="/Aptana/lab2/lab3/admin">Administrator</a></li>
+                        <li><a href="/lab/lab3/admin">Administrator</a></li>
                         <?php  endif; ?>
-                    <li><a href="/Aptana/lab2/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
+                    <li><a href="/lab/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
                     <?php  else : ?>
-                    <li><a href="/Aptana/lab2/lab3/login">Login</a></li>
-                    <li><a href="/Aptana/lab2/lab3/user/register">Register</a></li>	
+                    <li><a href="/lab/lab3/login">Login</a></li>
+                    <li><a href="/lab/lab3/user/register">Register</a></li>	
                     <?php  endif; ?>
 
                     <!-- Home link always present -->
-                    <li><a href="/Aptana/lab2/lab3/index">Home</a></li>
+                    <li><a href="/lab/lab3/index">Home</a></li>
                 </ul>
             </div>
 
@@ -43,13 +43,13 @@
 <table class="users-table">
 <?php  foreach ($users as $user) : ?>
     <tr>
-        <td><a href="/Aptana/lab2/lab3/user/view_user/<?php echo($user->getId()); ?>">View</a></td>
-        <td><a href="">Groups</td>
+        <td><a href="/lab/lab3/user/view_user/<?php echo($user->getId()); ?>">View</a></td>
+        <td><a href="/lab/lab3/user/user_groups/<?php echo($user->getId()); ?>">Groups</td>
         <td>
             <div class="delete-wrapper">
                 <a href="##" class="delete-button"> Delete</a>&nbsp;
                 <div class="confirm-delete" style="display: none;">
-                    <a href="/Aptana/lab2/lab3/user/delete_user/<?php echo($user->getId()); ?>">yes</a> / <a href="##" class="delete-button">no</a>
+                    <a href="/lab/lab3/user/delete_user/<?php echo($user->getId()); ?>">yes</a> / <a href="##" class="delete-button">no</a>
                 </div>
             </div>
         <td><?php echo(User::getFullName($user->getId())); ?></td>
@@ -58,7 +58,7 @@
 </table>
 
 <br />
-<a href="/Aptana/lab2/lab3/admin">&lt;&lt; Back</a>
+<a href="/lab/lab3/admin">&lt;&lt; Back</a>
 	
 </div> <!-- End content wrapper -->
 <footer>
@@ -66,7 +66,7 @@
 </footer>
 
 <!-- Javascript to toggle yes/no confirmation of delete -->
-<script src="/Aptana/lab2/lab3/js/jquery-3.2.0.min.js"></script>
+<script src="/lab/lab3/js/jquery-3.2.0.min.js"></script>
 
 
 

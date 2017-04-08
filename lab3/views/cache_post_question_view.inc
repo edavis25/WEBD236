@@ -41,55 +41,33 @@
 
 <h1><?php echo( $title ); ?></h1>
 
-<table>
-    <tr>
-        <td>First Name: </td>
-        <td><?php echo( $user->getFirstName() ); ?></td>
-    </tr>
-    <tr>
-        <td>Last Name: </td>
-        <td><?php echo( $user->getLastName() ); ?></td>
-    </tr>
-    <tr>
-        <td>E-mail: </td>
-        <td><?php echo( $user->getEmail() ); ?></td>
-    </tr>
-</table>
+<div id="errors">
+    <?php  if (isset($errors) && count($errors) > 0) : ?>
+        <ul>
+            <?php  foreach($errors as $error) : ?>
+                <li><?php echo( $error ); ?></li>
+            <?php  endforeach; ?>
+        </ul>
+    <?php  endif; ?>
+</div>
 
+<form action="/lab/lab3/questions/add_question" method="post">
+    <label for="title">Title</label>
+    <br />
+    <input type="text" id="title" name="title" class="full-width" value= "<?php echo( isset($inputs['title']) ? $inputs['title'] : '' ); ?>" />
+    <br />
+    <label for="content-textarea">Content</label>
+    <br />
+    <textarea name="content" id="content-textarea" rows="15" class="full-width"><?php echo( isset($inputs['content']) ? $inputs['content'] : '' ); ?></textarea>
+    <br />
+    <label for="tags">Tags</label>
+    <input type="text" id="tags" name="tags" class="full-width" value="<?php echo( isset($inputs['tags']) ? $inputs['tags'] : '' ); ?>" />
+    <br />
+    <br />
+    <input type="submit" value="Post Question" id="submit-question" />
+</form>
 <br />
-
-<?php  if ($ownsAccount ||  Authenticator::instance() -> can('user_edit')) : ?>
-<a href="/lab/lab3/user/edit_user/<?php echo( $user->getId() ); ?>">[ Edit ]</a>
-<div class="delete-wrapper">
-    <a href="#" class="delete-button">[ Delete ]</a>&nbsp;
-    <div class="confirm-delete" style="display: none;"> 
-        <a href="/lab/lab3/user/delete_user/<?php echo( $user->getId() ); ?>"> yes</a> / <a href="#" class="delete-button">no</a>
-    </div>
-</div>
-<?php  endif; ?>
-
-<h2>Questions By <?php echo( $user->getFirstName() . " " . $user->getLastName() ); ?></h2>
-
-<?php  foreach ($questions as $question): ?>
-    <div class="question">
-    <a href="/lab/lab3/questions/view_question/<?php echo($question->getId()); ?>"> <?php echo( $question->getTitle() ); ?></a>
-    <br />
-    Posted: <?php echo( $question->getDate() ); ?> by <a href="/lab/lab3/user/view_user/<?php echo( $question->getUserId() ); ?>"><?php echo( User::getFullName($question->getUserId()) ); ?></a>
-    <br />
-    <span>
-<?php  
-    $tags = explode(' ', $question->getTags());
-    if ($tags[0]) {
-        echo "Tags:";
-    }
-    foreach($tags as $tag) : 
-?> 
-    <a href="/lab/lab3/tag/view_questions/<?php echo( $tag ); ?>"><?php echo( $tag ); ?></a>
-<?php   endforeach; ?>
-</span>
-    <p class="question-content"> <?php echo( markdown(html_entity_decode(substr($question->getContent(), 0, 240)."...")) ); ?></p>
-</div>
-<?php  endforeach; ?>
+<a href="/lab/lab3/index">&lt;&lt; Back</a>
 
 	
 </div> <!-- End content wrapper -->
@@ -130,5 +108,3 @@
 </script>
 </body>
 </html>
-
-

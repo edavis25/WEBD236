@@ -20,15 +20,4 @@ class Model {
         $this -> id = $id;
         return $this;
     }
-    
-    /*
-    protected static function getDb() {
-        try {
-            $db = new PDO('sqlite:lab2.db3');
-        } catch (PDOException $e) {
-            die("Could not open database. " . $e -> getMessage());
-        }
-        return $db;
-    }
-    */
 }
