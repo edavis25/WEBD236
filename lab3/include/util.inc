@@ -55,7 +55,7 @@ function ensureLoggedIn() {
 function ensureLoggedInUserIs($id) {
     ensureLoggedIn();
     if ($_SESSION['UserID'] != $id) {
-        Logger::instance() -> warn("User $id attempted unauthorized operation.");
+        Logger::instance() -> warn("User $id attempted unauthorized access to: " . $_SERVER['REQUEST_URI']);
         die("You aren't authorized for this action. This attempt has been logged.");
     }
 }

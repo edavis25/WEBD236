@@ -6,6 +6,7 @@ include_once 'models/Question.inc';
 include_once 'models/Validator.inc';
 include_once 'models/Answer.inc';
 include_once 'include/Authenticator.inc';
+include_once 'models/File.inc';
 
 /**
  * Show recent questions as home page. 
@@ -43,9 +44,10 @@ function get_view_question($params) {
         die("Question not found.");
     }
     
-    // Get answers
+    // Get answers & files
     $answers = Answer::retrieveAnswersByQuestionId($question->getId());
-
+    $files = File::findByQuestionID($question->getId());
+    
     // Flag for author edit/delete controls
     $isAuthor = ( isLoggedIn() && $_SESSION['UserID'] == $question->getUserId() );
     
@@ -56,7 +58,8 @@ function get_view_question($params) {
             'title' => $question->getTitle(),
             'question' => $question,
             'isAuthor' => $isAuthor,
-            'answers' => $answers
+            'answers' => $answers,
+            'files' => $files
         )
     );
     // @formatter: on

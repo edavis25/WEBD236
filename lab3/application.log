@@ -96,3 +96,10 @@
 2017-04-08 07:56:09 WARN User 49 attempted unauthorized operation.
 2017-04-08 07:56:18 WARN User 49 attempted unauthorized operation.
 2017-04-08 07:57:21 WARN User 52 attempted unauthorized operation.
+2017-04-08 10:09:12 WARN User 66 attempted unauthorized access to: /Aptana/lab2/lab3/
+2017-04-08 10:13:13 WARN User 66 attempted unauthorized access to: /Aptana/lab2/lab3/questions/edit_question/85
+2017-04-08 10:14:25 WARN User 66 attempted unauthorized access to: /Aptana/lab2/lab3/user/edit_user/66
+2017-04-08 10:14:31 WARN User 66 attempted unauthorized access to: /Aptana/lab2/lab3/user/delete_user/66
+2017-04-08 10:14:39 WARN User 66 attempted unauthorized access to: /Aptana/lab2/lab3/questions/edit_question/85
+2017-04-08 10:14:42 WARN User 66 attempted unauthorized access to: /Aptana/lab2/lab3/questions/delete_question/85
+2017-04-08 10:15:46 WARN User 66 attempted unauthorized access to: /Aptana/lab2/lab3/questions/edit_question/85
