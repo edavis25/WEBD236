@@ -135,6 +135,18 @@ class File extends Model {
         $rows = $st -> fetchAll(PDO::FETCH_ASSOC);
         return self::fromRows($rows);
     }
+    
+    static function findByDiskName($name) {
+        $db = Db::getDb();
+        $sql = "SELECT * FROM Files WHERE DiskName = :name";
+        
+        $statement = $db -> prepare($sql);
+        $statement -> bindParam(':name', $name);
+        $statement -> execute();
+        
+        $row = $statement -> fetch(PDO::FETCH_ASSOC);
+        return new File($row);
+    }
 
     function insert() {
         $this -> validate(true);

@@ -115,3 +115,8 @@ input, textarea {
     display: inline-block;
     padding: 5px;
 }
+
+#orphans {
+    border: 1px solid #410054;
+    padding: 5px;
+}

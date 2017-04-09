@@ -10,7 +10,11 @@ class UploadDir {
             mkdir($this -> dir);
         }
     }
-
+    
+    public function getDirectory() {
+        return $this -> dir;
+    }
+    
     private static function sanitizeFileName($str) {
         // get rid of consecutive dots
         $str = preg_replace('/\.\.+/', '.', $str);
@@ -24,8 +28,13 @@ class UploadDir {
 
     public function getUpload($key) {
         $file = null;
+        
         if (isset($_FILES[$key])) {
-
+            // Make sure no file upload errors
+            if ($_FILES[$key]['error'] != 0) {
+                return $file;
+            }
+            
             $tmp_name = $_FILES[$key]['tmp_name'];
             $nameOnDisk = $this -> generateName();
             $path = $this -> dir . DIRECTORY_SEPARATOR . $nameOnDisk;
@@ -62,4 +71,3 @@ class UploadDir {
         return $result;
     }
 }
-?>

@@ -38,6 +38,17 @@ function get_view_question($params) {
         die("Error: No question selected.");
     }
     
+    // Look for validator object sent as param when this method called from another controller (namely answers.inc + file.inc)
+    if (isset($params[1]) && $params[1] instanceof Validator) {
+        $errors = $params[1] -> getErrors();
+        foreach ($errors as $key => &$error) {
+            $error = safeParam($errors, $key, null);
+        }
+    }
+    else {
+        $errors = null;
+    }
+    
     // Retrieve question by ID (die if not found)
     $question = Question::retrieveQuestionById($id);
     if (!$question) {
@@ -59,7 +70,8 @@ function get_view_question($params) {
             'question' => $question,
             'isAuthor' => $isAuthor,
             'answers' => $answers,
-            'files' => $files
+            'files' => $files,
+            'errors' => $errors
         )
     );
     // @formatter: on
@@ -147,8 +159,14 @@ function get_delete_question($params) {
         ensureLoggedInUserIs($question->getUserId());
     }
     
+    // Delete the question's answers & files
     Answer::deleteAnswersByQuestionId($question->getId());
-    $question->deleteQuestion();
+    $files = File::findByQuestionID($question->getId());
+    foreach ($files as $file) {
+        $file -> delete();
+    }
+    
+    $question -> deleteQuestion();
 
     redirectRelative("questions/questions");
 }

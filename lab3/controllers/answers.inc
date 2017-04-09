@@ -6,6 +6,8 @@ include_once 'models/Validator.inc';
 include_once 'models/Answer.inc';
 include_once 'include/Authenticator.inc';
 
+include_once 'controllers/questions.inc';
+
 function post_add_answer($params) {
     Authenticator::instance() -> ensure('answer_create');
     
@@ -19,6 +21,10 @@ function post_add_answer($params) {
     $validator -> required('userId', $userId, 'User ID missing');
     $validator -> required('questionId', $questionId, 'Question ID missing');
     if ($validator -> hasErrors()) {
+        get_view_question(array($questionId, $validator));
+        die;
+        
+        /*
         $question = Question::retrieveQuestionById($questionId);
         if (!$question) {
             die("Question not found.");
@@ -41,6 +47,7 @@ function post_add_answer($params) {
         );
         // @formatter:on
         die; // If errors found, stop here
+        */
     }
     
     date_default_timezone_set('America/New_York');

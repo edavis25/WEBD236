@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/Aptana/lab2/lab3/css/style.css" />
+        <link rel="stylesheet" href="/lab/lab3/css/style.css" />
 
         <title><?php echo( $title ); ?></title>
     </head>
@@ -16,18 +16,18 @@
                 <ul>
 
                     <?php if (isLoggedIn()) : ?>
-                    <li><a href="/Aptana/lab2/lab3/logout">Logout</a></li>
+                    <li><a href="/lab/lab3/logout">Logout</a></li>
                         <?php  if (Authenticator::instance() -> can('admin_page')) : ?>
-                        <li><a href="/Aptana/lab2/lab3/admin">Administrator</a></li>
+                        <li><a href="/lab/lab3/admin">Administrator</a></li>
                         <?php  endif; ?>
-                    <li><a href="/Aptana/lab2/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
+                    <li><a href="/lab/lab3/user/view_user/<?php echo(safeParam($_SESSION, 'UserID', false)); ?>">My Profile</a></li>
                     <?php  else : ?>
-                    <li><a href="/Aptana/lab2/lab3/login">Login</a></li>
-                    <li><a href="/Aptana/lab2/lab3/user/register">Register</a></li>	
+                    <li><a href="/lab/lab3/login">Login</a></li>
+                    <li><a href="/lab/lab3/user/register">Register</a></li>	
                     <?php  endif; ?>
 
                     <!-- Home link always present -->
-                    <li><a href="/Aptana/lab2/lab3/index">Home</a></li>
+                    <li><a href="/lab/lab3/index">Home</a></li>
                 </ul>
             </div>
 
@@ -41,7 +41,7 @@
 
 <h1><?php echo( $title ); ?></h1>
 <hr />
-<p>Posted on: <?php echo($question->getDate()); ?> by <a href="/Aptana/lab2/lab3/user/view_user/<?php echo( $question->getUserId() ); ?>"><?php echo( User::getFullName($question->getUserId()) ); ?></a></p>
+<p>Posted on: <?php echo($question->getDate()); ?> by <a href="/lab/lab3/user/view_user/<?php echo( $question->getUserId() ); ?>"><?php echo( User::getFullName($question->getUserId()) ); ?></a></p>
 
 <span>
 <?php  
@@ -51,7 +51,7 @@
     }
     foreach($tags as $tag) : 
 ?> 
-    <a href="/Aptana/lab2/lab3/tag/view_questions/<?php echo( $tag ); ?>"><?php echo( $tag ); ?></a>
+    <a href="/lab/lab3/tag/view_questions/<?php echo( $tag ); ?>"><?php echo( $tag ); ?></a>
 <?php   endforeach; ?>
 </span>
 
@@ -59,16 +59,16 @@
 
 <!-- Add edit/delete links if user is question author -->
 <?php  if ( $isAuthor || Authenticator::instance() -> can('question_edit')) : ?>
-    <a href="/Aptana/lab2/lab3/questions/edit_question/<?php echo( $question->getId() ); ?>">[ Edit ]</a>
+    <a href="/lab/lab3/questions/edit_question/<?php echo( $question->getId() ); ?>">[ Edit ]</a>
     <div class="delete-wrapper">
         <a href="##" class="delete-button">[ Delete ]</a>&nbsp;
         <div class="confirm-delete" style="display: none;"> 
-            <a href="/Aptana/lab2/lab3/questions/delete_question/<?php echo( $question->getId() ); ?>"> yes</a> / <a href="##" class="delete-button">no</a>
+            <a href="/lab/lab3/questions/delete_question/<?php echo( $question->getId() ); ?>"> yes</a> / <a href="##" class="delete-button">no</a>
         </div>
     </div>
-    <br /><br />
+    <br /><br /><hr /><br />
     <div id='file-upload'>
-        <form action="/Aptana/lab2/lab3/file/add" method="post" enctype="multipart/form-data">
+        <form action="/lab/lab3/file/add" method="post" enctype="multipart/form-data">
             <input type="hidden" name="question-id" value="<?php echo($question->getId()); ?>" />
             <label for="file">Add an attachment file:</label><hr />
             <input type="file" name="file" /><br />
@@ -80,16 +80,30 @@
     <br /><br />
 <?php  endif; ?>
 
+<?php  if ($files && count($files) > 0) : ?>
 <div id="attachments">
+    <label><b>Attachments:</b></label>
+    <ul>
     <?php  foreach ($files as $file) : ?>
-        <a href="/Aptana/lab2/lab3/file/view/<?php echo($file->getId()); ?>">View</a>&nbsp;<?php echo($file->getOrigName()); ?>
+        <li>
+            <a href="/lab/lab3/file/view/<?php echo($file->getId()); ?>">[ View ]</a>
+            <a href="/lab/lab3/file/download/<?php echo($file->getId()); ?>">[ Download ]</a>
+            <?php  if ( $isAuthor || Authenticator::instance() -> can('question_edit')) : ?>
+                <div class="delete-wrapper">
+                    <a href="##" class="delete-button">[ Delete ]</a>&nbsp;
+                    <div class="confirm-delete" style="display: none;">
+                        <a href="/lab/lab3/file/delete/<?php echo($file->getId()); ?>/<?php echo($question->getId()); ?>"> yes</a> / <a href="##" class="delete-button">no</a>
+                    </div>
+                </div>
+            <?php  endif; ?>
+            &nbsp;<?php echo($file->getOrigName()); ?>
+        </li>
     <?php  endforeach; ?>
+    </ul>
 </div>
-
-<br />
-<?php  if (Authenticator::instance() -> can('answer_create')) : ?>
-    <div class="answer-form">
-    <div id="errors">
+<?php  endif; ?>
+<!-- Comment to fix renderTemplate include bug -->
+<div id="errors">
     <?php  if (isset($errors) && count($errors) > 0) : ?>
         <ul>
             <?php  foreach($errors as $error) : ?>
@@ -98,8 +112,12 @@
         </ul>
     <?php  endif; ?>
 </div>
+
+<br />
+<?php  if (Authenticator::instance() -> can('answer_create')) : ?>
+    <div class="answer-form">
     Add an answer
-    <form method="POST" action="/Aptana/lab2/lab3/answers/add_answer">
+    <form method="POST" action="/lab/lab3/answers/add_answer">
         <textarea name="answer-content" class="answer-textarea" rows="3"></textarea>
         <br />
         <input type="hidden" name="question-id" value="<?php echo( $question->getId() ); ?>" />
@@ -113,27 +131,26 @@
     <h2>Answers:</h2>
     <?php  foreach($answers as $answer) : ?>
         <div class="answer">
-    Posted <?php echo( $answer->getDate() ); ?> by 
+            Posted <?php echo( $answer->getDate() ); ?> by 
+            <a href="/lab/lab3/user/view_user/<?php echo( $answer->getUserId() ); ?>"><?php echo( User::getFullName($answer->getUserId()) ); ?></a>
     
-    <a href="/Aptana/lab2/lab3/user/view_user/<?php echo( $answer->getUserId() ); ?>"><?php echo( User::getFullName($answer->getUserId()) ); ?></a>
-    
-    <div class="answer-content">
-        <?php echo( nl2br($answer->getContent()) ); ?>
-    </div>
-    
-    <?php  if ( (isLoggedIn() && $_SESSION['UserID'] == $answer->getUserId()) || Authenticator::instance() -> can('answer_delete')) : ?>
-        <div class="delete-wrapper">
-            <a href="##" class="delete-button">[ Delete ]</a>&nbsp;
-            <div class="confirm-delete" style="display: none;"> 
-                <a href="/Aptana/lab2/lab3/answers/delete_answer/<?php echo( $answer->getId() ); ?>"> yes</a> / <a href="##" class="delete-button">no</a>
+            <div class="answer-content">
+                <?php echo( nl2br($answer->getContent()) ); ?>
             </div>
-        </div>
-    <?php  endif; ?>
-</div>
-
-    <?php  endforeach; ?>   
+    
+            <?php  if ( (isLoggedIn() && $_SESSION['UserID'] == $answer->getUserId()) || Authenticator::instance() -> can('answer_delete')) : ?>
+                <div class="delete-wrapper">
+                    <a href="##" class="delete-button">[ Delete ]</a>&nbsp;
+                    <div class="confirm-delete" style="display: none;"> 
+                        <a href="/lab/lab3/answers/delete_answer/<?php echo( $answer->getId() ); ?>"> yes</a> / <a href="##" class="delete-button">no</a>
+                    </div>
+                </div>
+            <?php  endif; ?>
+            
+        </div> <!-- End answer div -->
+    <?php  endforeach; ?> 
 <?php  endif; ?>
-
+<!-- Comment to fix renderTemplate include bug -->
 	
 </div> <!-- End content wrapper -->
 <footer>
@@ -141,7 +158,7 @@
 </footer>
 
 <!-- Javascript to toggle yes/no confirmation of delete -->
-<script src="/Aptana/lab2/lab3/js/jquery-3.2.0.min.js"></script>
+<script src="/lab/lab3/js/jquery-3.2.0.min.js"></script>
 
 
 

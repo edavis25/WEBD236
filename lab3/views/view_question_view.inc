@@ -17,7 +17,7 @@
             <a href="@@questions/delete_question/{{ $question->getId() }}@@"> yes</a> / <a href="##" class="delete-button">no</a>
         </div>
     </div>
-    <br /><br />
+    <br /><br /><hr /><br />
     <div id='file-upload'>
         <form action="@@file/add@@" method="post" enctype="multipart/form-data">
             <input type="hidden" name="question-id" value="{{$question->getId()}}" />
@@ -32,19 +32,16 @@
 [[ endif; ]]
 
 %% views/files.inc %%
+<!-- Comment to fix renderTemplate include bug -->
+%% views/errors.inc %%
 
 <br />
 [[ if (Authenticator::instance() -> can('answer_create')) : ]]
     %% views/answer_form.inc %%
 [[ endif; ]]
 
-[[ if ($answers && count($answers) > 0) : ]]
-    <h2>Answers:</h2>
-    [[ foreach($answers as $answer) : ]]
-        %% views/answer_view.inc %%
-    [[ endforeach; ]]   
-[[ endif; ]]
-
+%% views/answer_view.inc %%
+<!-- Comment to fix renderTemplate include bug -->
 %% views/footer.inc %%
 
 

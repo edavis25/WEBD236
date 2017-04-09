@@ -103,3 +103,26 @@
 2017-04-08 10:14:39 WARN User 66 attempted unauthorized access to: /Aptana/lab2/lab3/questions/edit_question/85
 2017-04-08 10:14:42 WARN User 66 attempted unauthorized access to: /Aptana/lab2/lab3/questions/delete_question/85
 2017-04-08 10:15:46 WARN User 66 attempted unauthorized access to: /Aptana/lab2/lab3/questions/edit_question/85
+2017-04-09 04:15:51 WARN User 0 attempted unauthorized operation admin_page
+2017-04-09 05:15:29 INFO Removed orphan file: upload58e8a4a304120 
+2017-04-09 05:15:29 INFO Removed orphan file: upload58e8a4c07cfde 
+2017-04-09 05:15:29 INFO Removed orphan file: upload58e8a52b62ec3 
+2017-04-09 05:15:29 INFO Removed orphan file: upload58e99493984df 
+2017-04-09 05:15:46 INFO Removed orphan file: upload58e8a4a304120 
+2017-04-09 05:15:46 INFO Removed orphan file: upload58e8a4c07cfde 
+2017-04-09 05:15:46 INFO Removed orphan file: upload58e8a52b62ec3 
+2017-04-09 05:15:46 INFO Removed orphan file: upload58e99493984df 
+2017-04-09 05:17:03 INFO User 1 removed orphan file: upload58e8a4a304120 
+2017-04-09 05:17:03 INFO User 1 removed orphan file: upload58e8a4c07cfde 
+2017-04-09 05:17:03 INFO User 1 removed orphan file: upload58e8a52b62ec3 
+2017-04-09 05:17:03 INFO User 1 removed orphan file: upload58e99493984df 
+2017-04-09 05:19:21 INFO User 1 removed orphan file: upload58e8a4a304120 from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 05:19:21 INFO User 1 removed orphan file: upload58e8a4c07cfde from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 05:19:21 INFO User 1 removed orphan file: upload58e8a52b62ec3 from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 05:19:21 INFO User 1 removed orphan file: upload58e99493984df from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 05:20:09 INFO User 1 removed orphan file: upload58e8a4a304120 from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 05:20:09 INFO User 1 removed orphan file: upload58e8a4c07cfde from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 05:20:09 INFO User 1 removed orphan file: upload58e8a52b62ec3 from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 05:20:09 INFO User 1 removed orphan file: upload58e99493984df from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 05:27:11 INFO User 1 removed orphan file: upload58e9a9f64786c from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 05:27:11 INFO User 1 removed orphan file: upload58e9a9f95bd54 from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads

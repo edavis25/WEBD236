@@ -1,5 +1,4 @@
 <div class="answer-form">
-    %% views/errors.inc %%
     Add an answer
     <form method="POST" action="@@answers/add_answer@@">
         <textarea name="answer-content" class="answer-textarea" rows="3"></textarea>
