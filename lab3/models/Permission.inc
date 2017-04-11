@@ -5,12 +5,6 @@ class Permission extends Model {
 
     protected $name;
     
-    /*
-    function __construct($id, $name) {
-        parent::__construct($id);
-        $this -> setName($name);
-    }
-     */
     function __construct($fields = array()) {
         parent::__construct(safeParam($fields, 'id', null));
         $this -> setName(safeParam($fields, 'name', null));

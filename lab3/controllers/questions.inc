@@ -1,5 +1,4 @@
 <?php
-
 include_once "include/util.inc";
 include_once 'models/User.inc';
 include_once 'models/Question.inc';
@@ -12,7 +11,6 @@ include_once 'models/File.inc';
  * Show recent questions as home page. 
  */
 function get_questions($params) {
-    // Get question data
     $questions = Question::retrieveRecentQuestions();
     
     // @formatter: off
@@ -28,11 +26,7 @@ function get_questions($params) {
     // @formatter: on
 }
 
-/**
- * Opens single full question view
- */
 function get_view_question($params) {
-    // Get ID as safe param (die if ID not found)
     $id = safeParam($params, 0, false);
     if ($id === false) {
         die("Error: No question selected.");
@@ -54,11 +48,9 @@ function get_view_question($params) {
     if (!$question) {
         die("Question not found.");
     }
-    
     // Get answers & files
     $answers = Answer::retrieveAnswersByQuestionId($question->getId());
     $files = File::findByQuestionID($question->getId());
-    
     // Flag for author edit/delete controls
     $isAuthor = ( isLoggedIn() && $_SESSION['UserID'] == $question->getUserId() );
     
@@ -77,12 +69,8 @@ function get_view_question($params) {
     // @formatter: on
 }
 
-/**
- * Get the post new question view
- */
 function get_post_question($params) {
-    // Make sure user is logged in
-    ensureLoggedIn();
+    Authenticator::instance() -> ensure('question_create');
     
     // Look for prefilled tag
     $inputs['tags'] = safeParam($params, 0, null);
@@ -98,12 +86,8 @@ function get_post_question($params) {
     // @formatter: on
 }
 
-/**
- * Add new question to the DB. Make sure required fields are present,
- * if they are missing add errors and render post question view again.
- */
 function post_add_question($params) {
-    ensureLoggedIn();
+    Authenticator::instance() -> ensure('question_create');
     
     // Gather POST data
     $inputs['title'] = safeParam($_POST, 'title', false);
@@ -142,11 +126,7 @@ function post_add_question($params) {
     redirectRelative("questions/view_question/$id");
 }
 
-/**
- * Delete a question from the DB. Redirect to recent questions home page.
- */
 function get_delete_question($params) {
-    // _GET question ID as safe param
     $id = safeParam($params, 0, false);
 
     // Get question data from DB to find author's UserID
@@ -171,9 +151,6 @@ function get_delete_question($params) {
     redirectRelative("questions/questions");
 }
 
-/**
- * Get edit view for existing question
- */
 function get_edit_question($params) {
     $id = safeParam($params, 0, false);
     if ($id === false) {
@@ -198,10 +175,6 @@ function get_edit_question($params) {
     );
 }
 
-/**
- * Update question in the DB. Check for required fields, if missing
- * render the edit question view again and show errors.
- */
 function post_edit_question($params) {
     // Gather any existing inputs to send back
     $inputs['Title'] = safeParam($_POST, 'title', false);
@@ -246,3 +219,4 @@ function post_edit_question($params) {
     
     redirectRelative('questions/view_question/' . $inputs['QuestionID']);
 }
+

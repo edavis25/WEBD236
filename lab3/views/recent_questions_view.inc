@@ -10,7 +10,7 @@
 
 <br />
 
-[[ if (isLoggedIn()) : ]]
+[[ if (Authenticator::instance() -> can('question_create')) : ]]
     <a href="@@questions/post_question/{{ isset($prefillTag) ? $prefillTag : '' }}@@">{{ $newQuestionButtonText }}</a>
 [[ endif; ]]
 

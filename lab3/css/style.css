@@ -40,6 +40,10 @@ body {
     text-align: center;
 }
 
+.float-right {
+    float: right;
+}
+
 #errors {
     color: red;
     font-weight: 600;
@@ -119,4 +123,10 @@ input, textarea {
 #orphans {
     border: 1px solid #410054;
     padding: 5px;
+}
+
+#forgot-form {
+    border: 1px solid #410054;
+    padding: 20px;
+    display: inline-block;
 }

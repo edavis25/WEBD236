@@ -1,5 +1,4 @@
 <?php
-
 include_once ('models/Permission.inc');
 include_once ('models/User.inc');
 include_once ('models/Group.inc');
@@ -46,6 +45,16 @@ class Db {
                 Email     TEXT    NOT NULL,
                 Password  TEXT    NOT NULL
             )",
+            "CREATE TABLE Questions (
+                QuestionID INTEGER PRIMARY KEY AUTOINCREMENT
+                           NOT NULL,
+                Date       DATE    NOT NULL,
+                Title      TEXT    NOT NULL,
+                Content    TEXT    NOT NULL,
+                Tags       TEXT,
+                UserID     INTEGER REFERENCES Users (UserID) 
+                           NOT NULL
+            )",
             "CREATE TABLE Groups (
                 GroupID INTEGER PRIMARY KEY AUTOINCREMENT
                         NOT NULL,
@@ -86,15 +95,17 @@ class Db {
                 Date       DATE    NOT NULL,
                 Content    TEXT    NOT NULL
             )",
-            "CREATE TABLE Questions (
-                QuestionID INTEGER PRIMARY KEY AUTOINCREMENT
-                           NOT NULL,
-                Date       DATE    NOT NULL,
-                Title      TEXT    NOT NULL,
-                Content    TEXT    NOT NULL,
-                Tags       TEXT,
-                UserID     INTEGER REFERENCES Users (UserID) 
-                           NOT NULL
+            "CREATE TABLE Files (
+                FileID      INTEGER PRIMARY KEY AUTOINCREMENT 
+                            NOT NULL, 
+                Directory   TEXT NOT NULL, 
+                OrigName    TEXT NOT NULL, 
+                DiskName    TEXT NOT NULL, 
+                Type        TEXT NOT NULL, 
+                Size        INTEGER NOT NULL, 
+                QuestionID  INTEGER REFERENCES Questions (QuestionID) ON DELETE CASCADE 
+                                                                      ON UPDATE CASCADE 
+                            NOT NULL
             )"
          );
         // @formatter:on

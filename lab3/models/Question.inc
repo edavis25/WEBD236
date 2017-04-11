@@ -45,6 +45,10 @@ class Question extends Model {
         $this->tags = $tags;
     }
     
+    public function getExplodedTags() {
+        return explode(' ', $this->getTags());
+    }
+    
     public function getUserId() {
         return $this->userId;
     }

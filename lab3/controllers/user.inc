@@ -1,5 +1,4 @@
 <?php
-
 include_once 'include/util.inc';
 include_once 'models/Validator.inc';
 include_once 'models/User.inc';
@@ -7,8 +6,8 @@ include_once 'models/Question.inc';
 include_once 'models/Answer.inc';
 include_once 'include/Authenticator.inc';
 
+
 function get_view_user($params) {
-    // Get userID and retreive user info
     $id = safeParam($params, 0, false);
     $user = User::retrieveUserById($id);
     if (!$user) {
@@ -17,7 +16,6 @@ function get_view_user($params) {
 
     // Get user's questions
     $questions = Question::retrieveQuestionsByUserId($user->getId());
-
     // Flag for account owner (show the edit/delete account links)
     $ownsAccount = (isLoggedIn() && $_SESSION['UserID'] == $user->getId());
     
@@ -34,9 +32,6 @@ function get_view_user($params) {
     // @formatter: on
 }
 
-/*
- *  Display user registration page
- */
 function get_register($params) {
     // @formatter: off
     renderTemplate(
@@ -51,9 +46,6 @@ function get_register($params) {
     // @formatter: on
 }
 
-/*
- * Register user into the database (POST registration submit event)
- */
 function post_register($params) {
     $errors = validateUserForm();
     if ($errors) {
@@ -88,15 +80,11 @@ function post_register($params) {
     redirectRelative("index");
 }
 
-/**
- * Edit existing user information
- */
 function get_edit_user($params) {
     $id = safeParam($params, 0, false);
     if (!$id) {
         die("Error. No user selected.");
     }
-    
     $user = User::retrieveUserById($id);
     if (!$user) {
         die("Error. User not found.");
@@ -119,9 +107,6 @@ function get_edit_user($params) {
     // @formatter: on
 }
 
-/**
- * Save edit user changes (edit user form POST submit event)
- */
 function post_edit_user($params) {   
     $errors = validateUserForm();
     if ($errors) {
@@ -163,9 +148,6 @@ function post_edit_user($params) {
     redirectRelative("user/view_user/$id");
 }
 
-/**
- * Delete user and all their questions and answers from the database
- */
 function get_delete_user($params) {
     $id = safeParam($params, 0, false);
 
@@ -184,14 +166,17 @@ function get_delete_user($params) {
         
     $user->deleteUser();
     
+    // If user deleteing own account, logout
     if ($_SESSION['UserID'] == $id) {
         redirectRelative("logout");
     }
     else {
+        // Else admin is deleting account, redirect to manage users
         if (Authenticator::instance() -> can('admin_page')) {
             redirectRelative('user/manage_users');
         }
         else {
+            // Catch all else, redirect to homepage
             redirectRelative("index");
         }
     }
@@ -214,11 +199,12 @@ function get_manage_users($params) {
 }
 
 function get_user_groups($params) {
+    Authenticator::instance() -> ensure('admin_page');
+    
     $id = safeParam($params, 0, false);
     if (!$id) {
         die("Error: No user id defined.");
     }
-    
     $user = User::retrieveUserById($id);
     if (!$user) {
         die("Error: No user with id $id found.");
@@ -240,6 +226,9 @@ function get_user_groups($params) {
     // @formatter: on
 }
 
+/*
+ * Helper funciton to validate the user-edit form used for editing and registration
+ */
 function validateUserForm() {
     $inputs = getUserFormInputs();
     
@@ -267,6 +256,9 @@ function validateUserForm() {
     }
 }
 
+/*
+ * Helper funciton to gather inputs from the user-edit form
+ */
 function getUserFormInputs() {
     $inputs = array();
     

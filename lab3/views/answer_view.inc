@@ -6,9 +6,9 @@
             <a href="@@user/view_user/{{ $answer->getUserId() }}@@">{{ User::getFullName($answer->getUserId()) }}</a>
     
             <div class="answer-content">
-                {{ nl2br($answer->getContent()) }}
+                {{ markdown(html_entity_decode($answer->getContent())) }}
             </div>
-    
+
             [[ if ( (isLoggedIn() && $_SESSION['UserID'] == $answer->getUserId()) || Authenticator::instance() -> can('answer_delete')) : ]]
                 <div class="delete-wrapper">
                     <a href="##" class="delete-button">[ Delete ]</a>&nbsp;

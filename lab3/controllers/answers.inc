@@ -23,31 +23,6 @@ function post_add_answer($params) {
     if ($validator -> hasErrors()) {
         get_view_question(array($questionId, $validator));
         die;
-        
-        /*
-        $question = Question::retrieveQuestionById($questionId);
-        if (!$question) {
-            die("Question not found.");
-        }
-        // Get answers
-        $answers = Answer::retrieveAnswersByQuestionId($question->getId());
-        
-        // Flag for author edit/delete controls
-        $isAuthor = (isLoggedIn() && $_SESSION['UserID'] == $question->getUserId());
-        // @formatter: off
-        renderTemplate(
-            "views/view_question_view.inc", 
-            array(
-                'title' => $question->getTitle(),
-                'question' => $question,
-                'isAuthor' => $isAuthor,
-                'errors' => $validator->getErrors(),
-                'answers' => $answers
-            )
-        );
-        // @formatter:on
-        die; // If errors found, stop here
-        */
     }
     
     date_default_timezone_set('America/New_York');

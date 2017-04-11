@@ -77,6 +77,17 @@ class User extends Model {
         return self::makeUsersFromRows($rows);
     }
     
+    public static function retrieveUserByEmail($email) {
+        $db = Db::getDb();
+        
+        $sql = "SELECT * FROM Users WHERE Email = :email";
+        $statement = $db -> prepare($sql);
+        $statement -> bindParam(':email', $email);
+        $statement -> execute();
+        
+        $row = $statement -> fetch(PDO::FETCH_ASSOC);
+        return self::makeUserFromRow($row);
+    }
     
     public static function isValidUser($username, $password) {
         $db = Db::getDb();

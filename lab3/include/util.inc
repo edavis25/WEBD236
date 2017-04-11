@@ -168,7 +168,7 @@ function __cacheName($view) {
 
 // Function to render a template. $view is the view template, $params are
 // passed to the template.
-function renderTemplate($view, $params) {
+function renderTemplate($view, $params, $asString = false) {
     if (!file_exists($view)) {
         die("File $view doesn't exist.");
     }
@@ -199,6 +199,10 @@ function renderTemplate($view, $params) {
     eval("?>" . $contents);
     $result = ob_get_contents();
     ob_end_clean();
-    echo $result;
+    
+    if (!$asString) {
+        echo $result;
+    }
+    return $result;
 }
 ?>

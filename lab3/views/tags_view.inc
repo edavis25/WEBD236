@@ -1,6 +1,6 @@
 <span>
 [[ 
-    $tags = explode(' ', $question->getTags());
+    $tags = $question -> getExplodedTags();
     if ($tags[0]) {
         echo "Tags:";
     }

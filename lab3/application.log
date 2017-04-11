@@ -126,3 +126,43 @@
 2017-04-09 05:20:09 INFO User 1 removed orphan file: upload58e99493984df from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
 2017-04-09 05:27:11 INFO User 1 removed orphan file: upload58e9a9f64786c from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
 2017-04-09 05:27:11 INFO User 1 removed orphan file: upload58e9a9f95bd54 from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 08:09:45 INFO User 1 removed orphan file: upload58e9d003efd13 from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 08:10:21 INFO User 1 removed orphan file: upload58e9d03e240a2 from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-09 10:03:44 INFO Password recovery requested for account: davis.25811@gmail.com from IP: ::1
+2017-04-09 10:04:06 INFO Password recovery requested for account: davis.25811@gmail.com from IP: ::1
+2017-04-09 10:12:36 INFO Creating tables
+2017-04-09 10:12:36 INFO Creating default Users group permissions.
+2017-04-09 10:12:36 INFO Creating default Editors group permissions.
+2017-04-09 10:12:36 INFO Creating default Admin group permissions.
+2017-04-09 10:12:36 INFO Creating default super user.
+2017-04-09 10:17:55 INFO Password recovery requested for account: davis.25811@gmail.com from IP: ::1
+2017-04-10 08:44:59 INFO Creating tables
+2017-04-10 08:44:59 INFO Creating default Users group permissions.
+2017-04-10 08:44:59 INFO Creating default Editors group permissions.
+2017-04-10 08:44:59 INFO Creating default Admin group permissions.
+2017-04-10 08:44:59 INFO Creating default super user.
+2017-04-10 08:45:30 INFO Creating tables
+2017-04-10 08:45:30 INFO Creating default Users group permissions.
+2017-04-10 08:45:30 INFO Creating default Editors group permissions.
+2017-04-10 08:45:30 INFO Creating default Admin group permissions.
+2017-04-10 08:45:30 INFO Creating default super user.
+2017-04-10 08:46:31 WARN User 2 attempted unauthorized operation question_create
+2017-04-10 08:59:07 WARN User 4 attempted unauthorized access to: /lab/lab3/questions/edit_question/1
+2017-04-10 08:59:10 WARN User  attempted unauthorized access to: /lab/lab3/questions/delete_question/16
+2017-04-10 08:59:13 WARN User 4 attempted unauthorized access to: /lab/lab3/questions/edit_question/1
+2017-04-10 08:59:16 WARN User 5 attempted unauthorized operation admin_page
+2017-04-10 08:59:24 WARN User 5 attempted unauthorized operation admin_page
+2017-04-10 08:59:39 WARN User 5 attempted unauthorized operation admin_page
+2017-04-10 08:59:48 WARN User 5 attempted unauthorized operation admin_page
+2017-04-10 09:00:05 WARN User 5 attempted unauthorized operation admin_page
+2017-04-10 09:00:05 WARN User 5 attempted unauthorized operation admin_page
+2017-04-10 09:00:06 WARN User 5 attempted unauthorized operation admin_page
+2017-04-10 09:00:06 WARN User 4 attempted unauthorized access to: /lab/lab3/questions/edit_question/1
+2017-04-10 09:01:07 INFO User 1 removed orphan file: upload58e94d85a4a81 from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-10 09:01:07 INFO User 1 removed orphan file: upload58e9ed4b72428 from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-10 09:37:02 WARN User 4 attempted unauthorized access to: /lab/lab3/questions/edit_question/4
+2017-04-10 09:37:04 WARN User 6 attempted unauthorized operation question_create
+2017-04-10 09:37:06 WARN User 4 attempted unauthorized access to: /lab/lab3/questions/edit_question/4
+2017-04-10 09:37:20 INFO Password recovery requested for account: davise08@email.franklin.edu from IP: ::1
+2017-04-10 09:42:23 INFO User 1 removed orphan file: upload58eb3724e2ad6 from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
+2017-04-10 09:57:15 INFO User 1 removed orphan file: upload58eb3ab7d614a from C:\Users\Eric\Documents\GitHub\WEBD236\lab3\uploads
